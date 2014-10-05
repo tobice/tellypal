@@ -1,0 +1,16 @@
+{
+    "name": "tellypal",
+    "version": "0.1.0",
+    "description": "Application for downloading and managing shows.",
+    "main": "server.js",
+    "repository": {},
+    "author": "Tobiáš Potoček",
+    "email": "tobiaspotocek@gmail.com",
+    "license": "MIT",
+    "dependencies": {
+        "fetchr": "~0.3.4",
+        "bluebird": "~2.3.4"
+    },
+    "devDependencies": {
+    }
+}
