@@ -8,7 +8,7 @@ var TVDB_API_URL = 'http://thetvdb.com/api/';
 
 var tvshows = {
 
-    getSeries: function (seriesname) {
+    searchSeries: function (seriesname) {
         var url = this.makeUrl('GetSeries', {seriesname: seriesname});
         return request(url).promise()
             .then(xmlHelpers.parseXMLResponse)
