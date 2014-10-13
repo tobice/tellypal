@@ -13,7 +13,7 @@ function Api(fetcher, resource) {
     this.resource = resource;
 }
 
-_.each(['read', 'create', 'update', 'del'], function (method) {
+_.each(['read', 'create', 'update', 'delete'], function (method) {
     Api.prototype[method] = function (params, config) {
         var fetcher = this.fetcher;
         var resource = this.resource;
