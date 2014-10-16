@@ -1,3 +1,4 @@
+require('./utils/promisifySuperagent');
 var React = require('react');
 var Fetcher = require('fetchr');
 var TellyPal = require('./TellyPal');

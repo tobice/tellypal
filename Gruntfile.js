@@ -47,10 +47,16 @@ module.exports = function (grunt) {
             all: {
                 files: [{
                     expand: true,
-                    cwd: 'node_modules/font-awesome/fonts/',
-                    src: '**',
-                    dest: 'public/fonts/'
-                }]
+                        cwd: 'node_modules/font-awesome/fonts/',
+                        src: '**',
+                        dest: 'public/fonts/'
+                    }, {
+                        expand: true,
+                        cwd: 'assets/images/',
+                        src: '**',
+                        dest: 'public/images/'
+                    }
+                ]
             }
         },
 

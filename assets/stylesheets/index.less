@@ -5,6 +5,42 @@
 @import "bootswatch/darkly/bootswatch";
 @import "font-awesome/less/font-awesome";
 
+@import "animation.less";
+
 body {
   padding-top: 80px;
+}
+
+/** TVDB Image Banners */
+.banner {
+  position: relative;
+}
+.banner img, .banner-loading {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.banner-loading {
+  text-align: center;
+  color: #858585;
+  font-size: 20px;
+  line-height: 20px;
+  top: 50%;
+  margin-top: -10%;
+}
+.banner-poster .placeholder {
+  /* aspect ration 680x1000 */
+  padding-top: 147.059%
+}
+
+/** Show Thumbnail */
+.thumbnail {
+  margin-bottom: 30px;
+}
+.thumbnail h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

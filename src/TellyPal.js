@@ -1,4 +1,4 @@
-var Context = require('./lib/Context');
+var Context = require('./utils/Context');
 var AppRoutes = require('./AppRoutes.jsx');
 var SearchStore = require('./stores/SearchStore.js');
 
