@@ -7,7 +7,8 @@ module.exports = function (grunt) {
             debug: {
                 options: {
                     debug: true,
-                    transform: ['reactify']
+                    transform: ['reactify'],
+                    watch: true
                 },
                 files: {
                     'public/scripts.js': 'src/client.js'
@@ -74,11 +75,6 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            app: {
-                files: ['src/**/*'],
-                tasks: ['browserify:debug'],
-                options: { interrupt: true }
-            },
             styles: {
                 files: 'assets/stylesheets/**/*',
                 tasks: ['less:debug'],
