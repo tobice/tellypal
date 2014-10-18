@@ -9,6 +9,11 @@ var TVDB_BANNER_URL = 'http://thetvdb.com/banners/';
 
 var tvdb = {
 
+    /**
+     * Performs dynamic TVDB search.
+     * @param {string} seriesname - The name of the series to search for
+     * @returns {Promise.<Array.<Object>>} - List of found series (simplified result).
+     */
     searchSeries: function (seriesname) {
         var url = this.makeUrl('../GetSeries.php', {seriesname: seriesname});
         return request(url).promise()
@@ -19,8 +24,64 @@ var tvdb = {
             .then(xmlHelpers.cleanObjects);
     },
 
-    getBannerUrl: function (seriesid, type) {
-        var url = this.makeUrl('series/' + seriesid + '/banners.xml');
+    /**
+     * Get full series information from TVDB database by its id, including all
+     * episodes, separated into season. Returned object contains two extra
+     * properties: hasSpecials and seasonCount.
+     * @param seriesid - The series id
+     * @returns {Promise.<Object>}
+     */
+    getSeries: function (seriesid) {
+        var url = this.makeUrl('series/' + seriesid + '/all/en.xml', {});
+        return request(url).promise()
+            .catch(function() {
+                throw new Error('Unable to download series info. Maybe series does not exists?')
+            })
+            .then(xmlHelpers.parseXMLResponse)
+            .then(function (json) {
+                var series = xmlHelpers.cleanObject(json.Data.Series[0]);
+                var episodes = xmlHelpers.cleanObjects(json.Data.Episode);
+                var seasons = {};
+
+                _.each(episodes, function (episode) {
+                    var season = parseInt(episode.Combined_season);
+                    var episodeNo = parseInt(episode.Combined_episodenumber);
+                    if (!seasons[season]) {
+                        seasons[season] = {};
+                    }
+                    seasons[season][episodeNo] = episode;
+                });
+
+                series.seasons = seasons;
+                series.hasSpecials = series.seasons.hasOwnProperty('0');
+                series.seasonCount = _.size(series.seasons) - (series.hasSpecials ? 1 : 0);
+                return series;
+            })
+    },
+
+    /**
+     * Get series season.
+     * @param {string} seriesid - The series id
+     * @param {int} season - Season number (zero for specials)
+     * @returns {Promise.<Object>} - Indexed list of episodes in the season
+     */
+    getSeason: function (seriesid, season) {
+        return this.getSeries(seriesid)
+            .then(function (series) {
+                if (!series.seasons[season]) {
+                    throw new Error('Season does not exist');
+                }
+                return series.seasons[season];
+            });
+    },
+
+    /**
+     * Get list of banners for given series
+     * @param seriesid - The series id
+     * @returns {Promise.<Array.<Object>>}
+     */
+    getBanners: function (seriesid) {
+        var url = this.makeUrl('series/' + seriesid + '/banners.xml', {});
         return request(url).promise()
             .catch(function () {
                 throw new Error('Unable to download banner info. Maybe series does not exists?')
@@ -30,6 +91,17 @@ var tvdb = {
                 return json.Banners.Banner;
             })
             .then(xmlHelpers.cleanObjects)
+    },
+
+    /**
+     * Returns URL for the best banner of given type. The banner returned is
+     * determined by rating count and average rating.
+     * @param seriesid - The series id
+     * @param type - Banner type (poster|fanart|series|season)
+     * @return {Promise.<string>}
+     */
+    getBannerUrl: function (seriesid, type) {
+        return this.getBanners(seriesid)
             .then(function (banners) {
                 // Filter banners by type, take the five most rated banners and
                 // select the one with highest rating.
@@ -47,6 +119,12 @@ var tvdb = {
             });
     },
 
+    /**
+     * Makes API URL.
+     * @param {string} action
+     * @param {Object} params - Get params
+     * @returns {string}
+     */
     makeUrl: function (action, params) {
         var tvdb = url.parse(TVDB_API_URL);
         tvdb.pathname += TVDB_API_KEY + '/' + action;
