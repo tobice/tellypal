@@ -1,5 +1,6 @@
 require('node-jsx').install({extension: '.jsx'});
 require('./utils/promisifySuperagent');
+require('../config.js');
 
 var React = require('react');
 var Router = require('react-router');
@@ -23,6 +24,7 @@ app.use(function (req, res) {
     var tellyPal = new TellyPal({ fetcher: fetcher });
 
     Router.renderRoutesToString(tellyPal.getRoutes(), req.path, function (err, abortReason, html) {
+        // var name = tellyPal.context.getActionContext().getStore('SeriesStore').getContents().series.SeriesName;
         res.send('<!doctype html>' + html);
     });
 });

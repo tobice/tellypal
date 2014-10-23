@@ -35,7 +35,7 @@ body {
   padding-top: 147.059%
 }
 
-/** Show Thumbnail */
+/** Series Thumbnail */
 .thumbnail {
   margin-bottom: 30px;
 }
@@ -44,4 +44,55 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/** Series */
+.series {
+}
+.series-header {
+  margin-top: 30px;
+}
+.series-header h1 {
+  margin-top: 0;
+}
+.series-header .lead {
+  font-size: 18px;
+}
+.series-seasons {
+  margin-top: 30px;
+}
+.series-seasons .nav-tabs a:focus {
+  outline: none;
+}
+.series-seasons .nav-tabs a::-moz-focus-inner {
+  border: 0;
+}
+
+/** Season */
+.season {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.season .row {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  margin-left: 0;
+  margin-right: 0;
+}
+.season .row:nth-child(even) {
+  background-color: #303030;
+}
+.season .row > div {
+  padding: 5px 15px;
+  line-height: 24px;
+}
+
+/** Aired */
+.aired.aired-past {
+  .text-muted;
+}
+.aired.aired-today {
+  .text-success;
+}
+.aired.aired-future {
 }

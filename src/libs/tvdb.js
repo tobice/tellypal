@@ -2,6 +2,7 @@ var request = require('superagent');
 var xmlHelpers = require('../utils/xmlHelpers');
 var _ = require('lodash');
 var url = require('url');
+var moment = require('moment');
 
 var TVDB_API_KEY = '0A1C6FE6954B01FC';
 var TVDB_API_URL = 'http://thetvdb.com/api/';
@@ -26,8 +27,8 @@ var tvdb = {
 
     /**
      * Get full series information from TVDB database by its id, including all
-     * episodes, separated into season. Returned object contains two extra
-     * properties: hasSpecials and seasonCount.
+     * episodes, separated into season. Returned object contains some extra
+     * properties: hasSpecials, seasonCount and episodeCount.
      * @param seriesid - The series id
      * @returns {Promise.<Object>}
      */
@@ -49,12 +50,15 @@ var tvdb = {
                     if (!seasons[season]) {
                         seasons[season] = {};
                     }
+                    episode.FirstAired = episode.FirstAired + ' '
+                        + moment(series.Airs_Time, 'h:mm A').format('HH:mm');
                     seasons[season][episodeNo] = episode;
                 });
 
                 series.seasons = seasons;
                 series.hasSpecials = series.seasons.hasOwnProperty('0');
                 series.seasonCount = _.size(series.seasons) - (series.hasSpecials ? 1 : 0);
+                series.episodeCount = episodes.length;
                 return series;
             })
     },

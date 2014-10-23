@@ -1,22 +1,22 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Banner = require('./Banner.jsx');
+var Link = require('react-router').Link;
+
+var seriesHelpers = require('../../utils/seriesHelpers.jsx');
 
 var SeriesThumbnail = React.createClass({
-
-    getYear: function () {
-        var firstAired = this.props.series.FirstAired;
-        return firstAired ? firstAired.replace(/(\d+)-(\d+)-(\d+)/, "$1") : '(unknown year)';
-    },
 
     render: function () {
         var series = this.props.series;
         return (
             <div className="thumbnail">
-                <Banner seriesid={series.id} type="poster" />
+                <Link to="series" params={{ seriesid: series.seriesid }}>
+                    <Banner seriesid={series.id} type="poster" />
+                </Link>
                 <div className="caption">
-                    <h4><a href="#">{series.SeriesName}</a></h4>
-                    <p className="text-muted">{this.getYear()}</p>
+                    <h4><Link to="series" params={{ seriesid: series.seriesid }}>{series.SeriesName}</Link></h4>
+                    <p className="text-muted">{seriesHelpers.getYear(series.FirstAired)}</p>
                 </div>
             </div>
         )

@@ -16,6 +16,7 @@
         "superagent": "~0.20.0",
         "xml2js": "~0.4.4",
         "url": "~0.10.1",
+        "moment": "~2.8.3",
         "express": "~4.9.7",
         "compression": "~1.1.0",
         "react": "~0.11.2",

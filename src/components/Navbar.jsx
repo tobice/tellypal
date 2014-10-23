@@ -27,9 +27,9 @@ var NavbarComponent = React.createClass({
                     </div>
                     <div className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
-                            <li> <Link to="series">My library</Link> </li>
-                            <li> <Link to="series">Upcoming</Link> </li>
-                            <li> <Link to="series">Downloads</Link> </li>
+                            <li> <Link to="home">My library</Link> </li>
+                            <li> <Link to="home">Upcoming</Link> </li>
+                            <li> <Link to="home">Downloads</Link> </li>
                         </ul>
 
                         <Search />

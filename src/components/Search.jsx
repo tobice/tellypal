@@ -24,6 +24,7 @@ var Search = React.createClass({
         return (
             <form onSubmit={this.handleSubmit} className="navbar-form navbar-right">
                 <Input type="text" placeholder="Search shows..." valueLink={this.linkState('query')} />
+                {' '}
                 <Button type="submit" bsStyle="success"><i className="fa fa-search" /> Search</Button>
             </form>
         );

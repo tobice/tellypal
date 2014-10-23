@@ -11,7 +11,8 @@ function SearchStore(dispatcher) {
 SearchStore.storeName = 'SearchStore';
 SearchStore.handlers = {
     'SEARCH': 'setContents',
-    'SEARCH_UPDATE': 'updateContents'
+    'SEARCH_UPDATE': 'updateContents',
+    'SEARCH_CLEAR': 'clear'
 };
 
 util.inherits(SearchStore, Store);

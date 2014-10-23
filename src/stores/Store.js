@@ -20,8 +20,10 @@ Store.prototype.setContents = function (contents) {
 // TODO: update contents
 
 Store.prototype.clear = function () {
-    this.contents = null;
-    this.emitChange();
+    if (this.getDefaultContents) {
+        this.contents = this.getDefaultContents();
+        this.emitChange();
+    }
 };
 
 Store.prototype.dehydrate = function () {

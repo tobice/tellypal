@@ -5,23 +5,14 @@ var Navbar = require('./Navbar.jsx');
 
 var Application = React.createClass({
 
-    renderTmp: function () {
-        return (
-            <html>
-                <head>
-                    <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>TellyPal</title>
-                    <link href="/styles.css" rel="stylesheet"/>
-                </head>
-                <body style={{ padding: 0 }}>
-                    <div style={{ position: 'absolute', top: '50%', left: '50%', fontSize: 80}}>
-                        <i className="fa fa-ban"></i> Not available
-                    </div>
-                </body>
-            </html>
-        )
+    /*
+    statics: {
+        willTransitionTo: function (transition, params, query, props) {
+            var context = props.context;
+            transition.wait(context.executeAction(require('../actions/seriesActions').loadSeries, 80348));
+        }
     },
+    */
 
     render: function () {
         return (

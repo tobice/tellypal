@@ -17,7 +17,9 @@ var Banner = React.createClass({
         // Preload image
         var img = new Image();
         img.onload = function () {
-            this.setState({imageLoaded: true});
+            if (this.isMounted()) {
+                this.setState({imageLoaded: true});
+            }
         }.bind(this);
         img.setAttribute('src', this.makeUrl());
     },
