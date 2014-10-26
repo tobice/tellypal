@@ -7,9 +7,9 @@ var searchActions = {
      * @param {string} query - String to search for
      */
     search: function (context, query) {
-        var tvshows = context.getApi('tvshows');
+        var tvshows = context.getApi('TvshowsApi');
         context.dispatch('SEARCH_CLEAR');
-        return tvshows.read({ search: query }).then(function (results) {
+        return tvshows.call('searchSeries', query).then(function (results) {
             context.dispatch('SEARCH', { results: results });
         });
     }

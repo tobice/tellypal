@@ -1,5 +1,4 @@
 var Promise = require('bluebird');
-var unpromisifyFetcher = require('../utils/unpromisifyFetcher');
 
 var torrentFetcher = {
     name: 'torrentFetcher',
@@ -9,4 +8,4 @@ var torrentFetcher = {
     }
 };
 
-module.exports = unpromisifyFetcher(torrentFetcher);
+module.exports = torrentFetcher;

@@ -10,7 +10,7 @@
     "dependencies": {
         "debug": "~2.1.0",
         "dispatchr": "~0.2.0",
-        "fetchr": "~0.3.4",
+        "fetchr": "~0.4.0",
         "bluebird": "~2.3.4",
         "lodash": "~2.4.1",
         "superagent": "~0.20.0",
@@ -21,6 +21,7 @@
         "printf": "~0.2.0",
         "merge": "~1.2.0",
         "express": "~4.9.7",
+        "body-parser": "~1.9.1",
         "compression": "~1.1.0",
         "react": "~0.11.2",
         "reactify": "~0.14.0",

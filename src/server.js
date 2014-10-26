@@ -6,15 +6,19 @@ var React = require('react');
 var Router = require('react-router');
 var Fetcher = require('fetchr');
 var express = require('express');
+var bodyParser = require('body-parser');
 var compression = require('compression');
 
 var TellyPal = require('./TellyPal.js');
 var bannerProxy = require('./utils/bannerProxy');
+var fetcherizeApi = require('./utils/fetcherizeApi');
 
-Fetcher.registerFetcher(require('./api/tvshowsFetcher'));
+console.log(fetcherizeApi(require('./api/tvshowsApi')).name);
+Fetcher.registerFetcher(fetcherizeApi(require('./api/tvshowsApi')));
 
 var app = express();
 app.use(compression());
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public'));
 app.use(TellyPal.config.xhrPath, Fetcher.middleware());
 app.use('/banner/:seriesid/:type.jpg', bannerProxy.middleware);

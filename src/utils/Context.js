@@ -1,6 +1,6 @@
 var Dispatcher = require('dispatchr')();
 var _ = require('lodash');
-var Api = require('./Api');
+var ClientApi = require('./ClientApi');
 
 function Context(options) {
     options = options || {};
@@ -31,7 +31,7 @@ Context.prototype.getActionContext = function () {
         },
         fetcher: self.fetcher,
         getApi: function (resource) {
-            return new Api(self.fetcher, resource);
+            return new ClientApi(self.fetcher, resource);
         },
         getStore: self.dispatcher.getStore.bind(self.dispatcher)
     }
