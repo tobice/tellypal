@@ -62,7 +62,6 @@ var torrentz = {
 
     getTorrentFile: function (hash) {
         var url = this.getTorrentFileUrl(hash);
-        console.log('Downloading torrent ' + url);
 
         return new Promise(function (resolve, reject) {
            request.get(url).pipe(bl(function (err, buffer) {
