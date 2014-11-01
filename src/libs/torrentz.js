@@ -12,7 +12,7 @@ var VERIFIED_SEARCH_URL = 'https://torrentz.eu/feed_verified';
 var TRACKER = 'udp://tracker.openbittorrent.com/announce';
 
 function makeUrl (q, minSeeds) {
-    var torrentz = url.parse(VERIFIED_SEARCH_URL);
+    var torrentz = url.parse(SEARCH_URL);
     if (minSeeds) {
         q += ' seed > ' + minSeeds;
     }

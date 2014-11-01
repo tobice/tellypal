@@ -1,6 +1,7 @@
 require('node-jsx').install({extension: '.jsx'});
 require('./utils/promisifySuperagent');
 require('../config.js');
+require('./utils/db');
 
 var React = require('react');
 var Router = require('react-router');
@@ -13,8 +14,8 @@ var TellyPal = require('./TellyPal.js');
 var bannerProxy = require('./utils/bannerProxy');
 var fetcherizeApi = require('./utils/fetcherizeApi');
 
-console.log(fetcherizeApi(require('./api/tvshowsApi')).name);
-Fetcher.registerFetcher(fetcherizeApi(require('./api/tvshowsApi')));
+Fetcher.registerFetcher(fetcherizeApi(require('./api/TvshowsApi')));
+Fetcher.registerFetcher(fetcherizeApi(require('./api/TorrentsApi')));
 
 var app = express();
 app.use(compression());

@@ -11,11 +11,11 @@ var Button = Bootstrap.Button;
 var Loading = require('../partials/Loading.jsx');
 var FirstAired = require('../partials/FirstAired.jsx');
 var If = require('../partials/If.jsx');
+var EpisodeDownload = require('../partials/EpisodeDownload.jsx');
 var FluxMixin = require('../../utils/FluxMixin');
 var seriesActions = require('../../actions/seriesActions');
 var seriesHelpers = require('../../utils/seriesHelpers.jsx');
 var SERIES_STORE = require('../../stores/SeriesStore').storeName;
-
 
 var Season = React.createClass({
     mixins: [FluxMixin],
@@ -63,10 +63,12 @@ var Season = React.createClass({
             <Row>
                 <Col md={6}><strong>{episode.EpisodeNumber}.</strong> {episode.EpisodeName}</Col>
                 <Col md={3}><FirstAired aired={episode.FirstAired} /></Col>
-                <Col md={3}>
-                    <Button bsStyle="warning" bsSize="xsmall"><i className="fa fa-download" /> SD</Button>{' '}
-                    <Button bsStyle="warning" bsSize="xsmall"><i className="fa fa-download" /> 720p</Button>{' '}
-                    <Button bsStyle="warning" bsSize="xsmall"><i className="fa fa-download" /> 1080p</Button>
+                <Col md={3} className="text-right">
+                    <EpisodeDownload
+                        context={this.props.context}
+                        seriesid={this.props.params.seriesid}
+                        season={this.state.season}
+                        episode={episode.EpisodeNumber} />
                 </Col>
             </Row>
         )

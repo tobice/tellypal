@@ -10,3 +10,15 @@ moment.locale('en', {
         sameElse: 'LL'
     }
 });
+
+var config = {
+    mongodbURI: 'mongodb://localhost/tellypal',
+    downloadDir: '/home/tobik/downloads/torrents',
+    deluge: {
+        apiUrl: 'http://localhost:8112/json',
+        password: 'deluge'
+    }
+
+};
+
+module.exports = config;
