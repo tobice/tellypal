@@ -1,4 +1,5 @@
 @fa-font-path: "fonts";
+@body-padding-top: 70px;
 
 @import "bootstrap";
 @import "bootswatch/darkly/variables";
@@ -8,7 +9,7 @@
 @import "animation.less";
 
 body {
-  padding-top: 80px;
+  padding-top: @body-padding-top;
 }
 
 /** TVDB Image Banners */
@@ -31,7 +32,7 @@ body {
   margin-top: -10%;
 }
 .banner-poster .placeholder {
-  /* aspect ration 680x1000 */
+  /* aspect ratio 680x1000 */
   padding-top: 147.059%
 }
 
@@ -95,4 +96,24 @@ body {
   .text-success;
 }
 .aired.aired-future {
+}
+
+/** Notification */
+.notifications {
+  width: 100%;
+  .make-md-column(3);
+  position: fixed;
+  top: @body-padding-top;
+  right: 0;
+  padding: 0;
+  z-index: 999;
+}
+.notification {
+  width: 100%;
+  max-height: 120px;
+  overflow: hidden;
+}
+.notification > div.alert {
+  margin: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }

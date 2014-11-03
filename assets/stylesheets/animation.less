@@ -12,3 +12,19 @@
 .fade-leave.fade-leave-active {
   opacity: 0.01;
 }
+
+.show-enter {
+  max-height: 0;
+  opacity: 0.01;
+  transition: max-height .3s ease-in, opacity .3s ease-in;
+}
+.show-enter.show-enter-active {
+  opacity: 1;
+}
+.show-leave {
+  transition: max-height .3s ease-in, opacity .3s ease-in;
+}
+.show-leave.show-leave-active {
+  max-height: 0;
+  opacity: 0.01;
+}

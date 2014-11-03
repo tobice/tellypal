@@ -2,9 +2,11 @@ var Context = require('./utils/Context');
 var AppRoutes = require('./AppRoutes.jsx');
 var SearchStore = require('./stores/SearchStore.js');
 var SeriesStore = require('./stores/SeriesStore.js');
+var NotificationStore = require('./stores/NotificationStore');
 
 Context.registerStore(SearchStore);
 Context.registerStore(SeriesStore);
+Context.registerStore(NotificationStore);
 
 function TellyPal(options) {
     options = options || {};

@@ -2,6 +2,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var Navbar = require('./Navbar.jsx');
+var Notifications = require('./Notifications.jsx');
 
 var Application = React.createClass({
 
@@ -25,6 +26,7 @@ var Application = React.createClass({
                 </head>
                 <body>
                     <Navbar />
+                    <Notifications context={this.props.context} />
 
                     <div className="container">
                         <div className="row">

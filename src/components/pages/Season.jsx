@@ -60,7 +60,7 @@ var Season = React.createClass({
 
     renderEpisode: function (episode) {
         return (
-            <Row>
+            <Row key={episode.EpisodeNumber}>
                 <Col md={6}><strong>{episode.EpisodeNumber}.</strong> {episode.EpisodeName}</Col>
                 <Col md={3}><FirstAired aired={episode.FirstAired} /></Col>
                 <Col md={3} className="text-right">

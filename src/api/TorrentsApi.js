@@ -47,8 +47,10 @@ TorrentsApi.prototype.downloadEpisode = function (seriesid, season, episode, qua
             return myLibrary.addDownloadJob(torrent.hash, seriesid, series.SeriesName, jobDescription);
         })
 
+        // Return torrent being downloaded
         .then(function () {
             debug('New download job added to database');
+            return torrent;
         });
 };
 

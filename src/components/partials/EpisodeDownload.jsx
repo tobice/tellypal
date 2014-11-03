@@ -9,6 +9,8 @@ var Col = Bootstrap.Col;
 var Button = Bootstrap.Button;
 
 var torrentActions = require('../../actions/torrentActions');
+var notificationActions = require('../../actions/notificationActions');
+var NotificationStore = require('../../stores/NotificationStore');
 
 var EpisodeDownload = React.createClass({
 
@@ -17,6 +19,8 @@ var EpisodeDownload = React.createClass({
     },
 
     handleClick: function (quality) {
+        var context = this.props.context;
+
         var params = {
             seriesid: this.props.seriesid,
             season: this.props.season,
@@ -25,9 +29,15 @@ var EpisodeDownload = React.createClass({
         };
 
         this.setState({loading: true});
-        this.props.context.executeAction(torrentActions.downloadEpisode, params)
-            .catch(function () {})
-            .then(function () {
+        context.executeAction(torrentActions.downloadEpisode, params)
+            .then(function (torrent) {
+                var message = 'Torrent ' + torrent.title + ' has been added for download';
+                context.notify('Downloading started!', message, NotificationStore.INFO);
+            })
+            .catch(function (err) {
+                context.notify('Downloading episode failed', err.responseText, NotificationStore.DANGER);
+            })
+            .finally(function () {
                 this.setState({loading: false});
             }.bind(this));
     },

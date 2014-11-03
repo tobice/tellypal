@@ -58,7 +58,7 @@ var Series = React.createClass({
     renderHeader: function () {
         var series = this.state.series;
         return (
-            <Grid className="series-header">
+            <div className="series-header">
                 <Row>
                     <Col sm={3}>
                         <div className="thumbnail">
@@ -95,13 +95,13 @@ var Series = React.createClass({
                         </dl>
                     </Col>
                 </Row>
-            </Grid>
+            </div>
         );
     },
 
     renderSeasons: function () {
         return (
-            <Grid className="series-seasons">
+            <div className="series-seasons">
                 <Row>
                     <Col lg={12}>
                         <ul className="nav nav-tabs">
@@ -111,7 +111,7 @@ var Series = React.createClass({
                 </Row>
 
                 <this.props.activeRouteHandler context={this.props.context} defaultSeason={this.getDefaultSeason()} />
-            </Grid>
+            </div>
         );
     },
 
