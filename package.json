@@ -29,8 +29,7 @@
         "react-router": "~0.9.4",
         "react-bootstrap": "~0.12.0",
         "node-jsx": "~0.11.0",
-        "webtorrent": "~0.11.1",
-        "parse-torrent": "~2.1.2",
+        "ws": "~0.4.32",
         "bootstrap": "~3.2.0",
         "font-awesome": "~4.2.0",
         "bootswatch": "~3.2.0"

@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 
 var TellyPal = require('./TellyPal.js');
+var torrentWs = require('./torrentWs');
 var bannerProxy = require('./utils/bannerProxy');
 var fetcherizeApi = require('./utils/fetcherizeApi');
 
@@ -38,3 +39,4 @@ var server = app.listen(process.env.PORT || 3000, function () {
     console.log('Listening on port %d', server.address().port);
 });
 
+torrentWs(3001);
