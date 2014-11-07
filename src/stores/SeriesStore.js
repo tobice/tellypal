@@ -6,7 +6,7 @@ function SeriesStore(dispatcher) {
     this._series = {};
 }
 
-SeriesStore.storeName = 'SeriesName';
+SeriesStore.storeName = 'SeriesStore';
 SeriesStore.handlers = {
     'SERIES_ADD': 'addSeries',
     'SERIES_ADD_SEASON': 'addSeason',

@@ -1,6 +1,9 @@
 require('./utils/promisifySuperagent');
 require('../config.js');
 
+var debug = require('debug');
+debug.enable('torrentWs');
+
 var React = require('react');
 var Fetcher = require('fetchr');
 var TellyPal = require('./TellyPal');
@@ -15,4 +18,5 @@ window.context = tellyPal.context;
 
 React.renderComponent(tellyPal.getRoutes(), document);
 
+// Connect to the server and listen to torrent client updates
 tellyPal.context.getActionContext().executeAction(torrentActions.updateUi);

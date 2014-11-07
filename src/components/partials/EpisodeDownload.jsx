@@ -7,16 +7,35 @@ var Grid = Bootstrap.Grid;
 var Row = Bootstrap.Row;
 var Col = Bootstrap.Col;
 var Button = Bootstrap.Button;
+var ProgressBar = Bootstrap.ProgressBar;
 
+var seriesHelpers = require('../../utils/seriesHelpers.jsx');
+var FluxMixin = require('../../utils/FluxMixin');
 var torrentActions = require('../../actions/torrentActions');
 var notificationActions = require('../../actions/notificationActions');
 var NotificationStore = require('../../stores/NotificationStore');
+var SERIES_STORE = require('../../stores/SeriesStore').storeName;
+var TORRENTUI_STORE = require('../../stores/TorrentUIStore').storeName;
 
 var EpisodeDownload = React.createClass({
 
-    getInitialState: function() {
-        return { loading: false }
+    mixins: [FluxMixin],
+
+    getStateFromStores: function (props) {
+        props = props || this.props;
+        var series = this.getStore(SERIES_STORE).getSeries(props.seriesid);
+        var query = seriesHelpers.makeQueryForEpisode(series.SeriesName, props.season, props.episode);
+        return {
+            loading: this.state && this.state.loading,
+            torrent: this.getStore(TORRENTUI_STORE).findTorrent(query)
+        }
     },
+
+    getStoresToListenTo: function () {
+        return [TORRENTUI_STORE];
+    },
+
+    initStores: function () { },
 
     handleClick: function (quality) {
         var context = this.props.context;
@@ -31,7 +50,7 @@ var EpisodeDownload = React.createClass({
         this.setState({loading: true});
         context.executeAction(torrentActions.downloadEpisode, params)
             .then(function (torrent) {
-                var message = 'Torrent ' + torrent.title + ' has been added for download';
+                var message = 'Torrent ' + torrent.name + ' has been added for download';
                 context.notify('Downloading started!', message, NotificationStore.INFO);
             })
             .catch(function (err) {
@@ -43,13 +62,23 @@ var EpisodeDownload = React.createClass({
     },
 
     render: function () {
-        return (
-            <div>
-                {this.renderButton('any quality', '')}
-                {this.renderButton('720p', '720p')}
-                {this.renderButton('1080p', '1080p')}
-            </div>
-        )
+        var torrent = this.state.torrent;
+        if (torrent) {
+            var active = torrent.download_payload_rate != 0 && torrent.progress != 100;
+            return (
+                <div>
+                    <ProgressBar striped active={active} bsStyle="warning" now={torrent.progress} label="%(percent)s%" />
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    {this.renderButton('any quality', '')}
+                    {this.renderButton('720p', '720p')}
+                    {this.renderButton('1080p', '1080p')}
+                </div>
+            )
+        }
     },
 
     renderButton: function (label, quality) {

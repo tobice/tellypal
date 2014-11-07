@@ -4,7 +4,12 @@ var NotificationStore = require('../stores/NotificationStore');
 notificationActions = {
 
     add: function (context, payload) {
-        context.dispatch('NOTIFICATION_ADD', payload);
+        // Let's wait with the notification until the end of the current stack,
+        // just for the sake of consistency (we've had some problems with
+        // notification not disappearing properly, this might fix it)
+        _.defer(function () {
+            context.dispatch('NOTIFICATION_ADD', payload);
+        });
     },
 
     dismiss: function (context, id) {

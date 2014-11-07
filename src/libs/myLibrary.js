@@ -4,12 +4,19 @@ require('../utils/db');
 var myLibrary = {
 
     addDownloadJob: function (hash, seriesid, SeriesName, jobDescription) {
-        return new DownloadJob({
-            hash: hash,
-            seriesid: seriesid,
-            SeriesName: SeriesName,
-            jobDescription: jobDescription
-        }).saveAsync();
+        DownloadJob.removeAsync({ hash: hash})
+            .then(function () {
+                return new DownloadJob({
+                    hash: hash,
+                    seriesid: seriesid,
+                    SeriesName: SeriesName,
+                    jobDescription: jobDescription
+                }).saveAsync();
+            })
+    },
+
+    getDownloadJob: function (hash) {
+        return DownloadJob.findAsync({ hash: hash });
     }
 };
 

@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var printf = require('printf');
 var moment = require('moment');
 var React = require('react');
 var Bootstrap = require('react-bootstrap');
@@ -27,6 +28,11 @@ var seriesHelpers = {
     getAiredMoment: function (aired) {
         // lets just say that the show was aired in the US timezone
         return moment(aired + ' -0400', 'YYYY-MM-DD HH:mm Z');
+    },
+
+    makeQueryForEpisode: function (SeriesName, season, episode, quality) {
+        quality = quality || '';
+        return printf("%s S%02iE%02i %s", SeriesName, season, episode, quality).trim();
     }
 };
 
