@@ -44,6 +44,10 @@ TorrentUIStore.prototype.getTorrent = function (hash) {
 };
 
 TorrentUIStore.prototype.findTorrent = function (keywords) {
+    if (!this.getCurrentState()) {
+        return null;
+    }
+
     var regex = new RegExp(keywords.replace(/ /gi, '.+'));
     var torrents = this.getCurrentState().torrents;
     for (var hash in torrents) {

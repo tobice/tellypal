@@ -81,7 +81,7 @@ TorrentsApi.prototype.updateUi = function () {
                 uiState.torrents[hash].files = content;
             });
 
-            // For each torrent identified by its hash lets fetch downlaod job
+            // For each torrent identified by its hash lets fetch download job
             return Promise.props(_.mapValues(uiState.torrents, function (torrent, hash) {
                 return myLibrary.getDownloadJob(hash)
             }));
