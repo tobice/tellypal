@@ -17,11 +17,11 @@ window.React = React; // For chrome dev tool support
 var fetcher = new Fetcher({ xhrPath: TellyPal.config.xhrPath });
 var tellyPal = new TellyPal({ fetcher: fetcher });
 
-window.context = tellyPal.context;
+window.flux = tellyPal.flux;
 
 Router.run(AppRoutes, Router.HistoryLocation, function (Handler) {
-    React.render(<Handler context={tellyPal.getComponentContext()} />, document);
+    React.render(<Handler flux={tellyPal.getComponentFlux()} />, document);
 });
 
 // Connect to the server and listen to torrent client updates
-tellyPal.context.getActionContext().executeAction(torrentActions.updateUi);
+tellyPal.flux.executeAction(torrentActions.updateUi);

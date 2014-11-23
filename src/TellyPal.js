@@ -1,30 +1,30 @@
-var Context = require('./utils/Context');
+var Flux = require('./utils/Flux');
 var SearchStore = require('./stores/SearchStore.js');
 var SeriesStore = require('./stores/SeriesStore.js');
 var NotificationStore = require('./stores/NotificationStore');
 var TorrentUIStore = require('./stores/TorrentUIStore');
 
-Context.registerStore(SearchStore);
-Context.registerStore(SeriesStore);
-Context.registerStore(NotificationStore);
-Context.registerStore(TorrentUIStore);
+Flux.registerStore(SearchStore);
+Flux.registerStore(SeriesStore);
+Flux.registerStore(NotificationStore);
+Flux.registerStore(TorrentUIStore);
 
 function TellyPal(options) {
     options = options || {};
     var fetcher = options.fetcher;
     var initialState = options.initialState;
 
-    this.context = new Context({
+    this.flux = new Flux({
         fetcher: fetcher
     });
 
     if (initialState) {
-        this.context.rehydrate(initialState);
+        this.flux.rehydrate(initialState);
     }
 }
 
-TellyPal.prototype.getComponentContext = function () {
-    return this.context.getComponentContext();
+TellyPal.prototype.getComponentFlux = function () {
+    return this.flux.getComponentFlux();
 };
 
 module.exports = TellyPal;

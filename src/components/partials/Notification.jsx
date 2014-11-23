@@ -7,9 +7,12 @@ var NotificationStore = require('../../stores/NotificationStore');
 var notificationActions = require('../../actions/notificationActions');
 
 var Notification = React.createClass({
+    contextTypes: {
+        flux: React.PropTypes.object.isRequired
+    },
 
     handleAlertDismiss: function () {
-        this.props.context.executeAction(notificationActions.dismiss, this.props.notification.id);
+        this.flux.executeAction(notificationActions.dismiss, this.props.notification.id);
     },
 
     render: function () {

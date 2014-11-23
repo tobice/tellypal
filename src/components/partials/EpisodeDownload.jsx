@@ -18,7 +18,6 @@ var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 var TORRENTUI_STORE = require('../../stores/TorrentUIStore').storeName;
 
 var EpisodeDownload = React.createClass({
-
     mixins: [FluxMixin],
 
     getStateFromStores: function (props) {
@@ -38,7 +37,7 @@ var EpisodeDownload = React.createClass({
     initStores: function () { },
 
     handleClick: function (quality) {
-        var context = this.props.context;
+        var flux = this.getFlux();
 
         var params = {
             seriesid: this.props.seriesid,
@@ -48,13 +47,13 @@ var EpisodeDownload = React.createClass({
         };
 
         this.setState({loading: true});
-        context.executeAction(torrentActions.downloadEpisode, params)
+        flux.executeAction(torrentActions.downloadEpisode, params)
             .then(function (torrent) {
                 var message = 'Torrent ' + torrent.name + ' has been added for download';
-                context.notify('Downloading started!', message, NotificationStore.INFO);
+                flux.notify('Downloading started!', message, NotificationStore.INFO);
             })
             .catch(function (err) {
-                context.notify('Downloading episode failed', err.responseText, NotificationStore.DANGER);
+                flux.notify('Downloading episode failed', err.responseText, NotificationStore.DANGER);
             })
             .finally(function () {
                 this.setState({loading: false});

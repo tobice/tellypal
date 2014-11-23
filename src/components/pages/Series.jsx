@@ -23,7 +23,6 @@ var seriesHelpers = require('../../utils/seriesHelpers.jsx');
 var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 
 var Series = React.createClass({
-
     mixins: [State, FluxMixin],
 
     getStateFromStores: function () {
@@ -39,7 +38,7 @@ var Series = React.createClass({
     initStores: function () {
         var seriesid = this.getParams().seriesid;
         if (!this.getStore(SERIES_STORE).hasSeries(seriesid)) {
-            this.getContext().executeAction(seriesActions.loadSeries, seriesid);
+            this.executeAction(seriesActions.loadSeries, seriesid);
         }
     },
 
@@ -112,7 +111,7 @@ var Series = React.createClass({
                     </Col>
                 </Row>
 
-                <RouteHandler context={this.props.context} defaultSeason={this.getDefaultSeason()} />
+                <RouteHandler defaultSeason={this.getDefaultSeason()} />
             </div>
         );
     },

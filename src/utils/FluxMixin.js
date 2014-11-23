@@ -1,16 +1,21 @@
 var _ = require('lodash');
+var React = require('react');
 var invariant = require('react/lib/invariant');
 
 var FluxMixin = {
-    getContext: function () {
-        if (!this.props.context) {
-            throw new Error('Context not available in this component!');
+    contextTypes: {
+        flux: React.PropTypes.object.isRequired
+    },
+
+    getFlux: function () {
+        if (!this.context.flux) {
+            throw new Error('Flux not available in this component!');
         }
-        return this.props.context;
+        return this.context.flux;
     },
 
     getStore: function(store) {
-        return this.getContext().getStore(store);
+        return this.getFlux().getStore(store);
     },
 
     getInitialState: function () {
@@ -50,6 +55,10 @@ var FluxMixin = {
 
     _onChange: function () {
         this.setState(this.getStateFromStores());
+    },
+
+    executeAction: function (actionController, payload) {
+        return this.getFlux().executeAction(actionController, payload);
     }
 };
 

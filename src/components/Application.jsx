@@ -16,6 +16,13 @@ var Application = React.createClass({
         }
     },
     */
+    childContextTypes: {
+        flux: React.PropTypes.object.isRequired
+    },
+
+    getChildContext: function () {
+        return {flux: this.props.flux};
+    },
 
     render: function () {
         return (
@@ -28,12 +35,12 @@ var Application = React.createClass({
                 </head>
                 <body>
                     <Navbar />
-                    <Notifications context={this.props.context} />
+                    <Notifications />
 
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
-                                <RouteHandler context={this.props.context}/>
+                                <RouteHandler />
                             </div>
                         </div>
                     </div>

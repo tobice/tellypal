@@ -26,7 +26,7 @@ var Search = React.createClass({
     },
 
     initStores: function () {
-        this.getContext().executeAction(searchActions.search, this.getParams().query);
+        this.executeAction(searchActions.search, this.getParams().query);
     },
 
     render: function () {

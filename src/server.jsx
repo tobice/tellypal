@@ -30,7 +30,7 @@ app.use(function (req, res) {
     var tellyPal = new TellyPal({ fetcher: fetcher });
 
     Router.run(AppRoutes, req.path, function (Handler) {
-        var html = React.renderToString(<Handler context={tellyPal.getComponentContext()} />);
+        var html = React.renderToString(<Handler flux={tellyPal.getComponentFlux()} />);
         res.send('<!doctype html>' + html);
     });
 });

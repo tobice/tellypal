@@ -23,7 +23,7 @@ var Notifications = React.createClass({
         // is finished.
         _.defer(function () {
             var newNotifications = _.where(notifications, {status: NotificationStore.NEW});
-            this.getContext().executeAction(notificationActions.markAsShowing, newNotifications);
+            this.executeAction(notificationActions.markAsShowing, newNotifications);
         }.bind(this));
 
         return { notifications: notifications }
@@ -43,7 +43,7 @@ var Notifications = React.createClass({
                     enterTimeout={500} leaveTimeout={500}
                     transitionName="show">
                     {_.map(this.state.notifications, function (notification) {
-                        return <Notification context={this.getContext()} notification={notification} key={notification.id}/>
+                        return <Notification notification={notification} key={notification.id}/>
                     }.bind(this))}
                 </TimeoutTransitionGroup>
             </div>);

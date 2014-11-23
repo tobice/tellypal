@@ -41,7 +41,7 @@ var Season = React.createClass({
         var seriesid = params.seriesid;
         var season = params.season || props.defaultSeason;
         if (!this.getStore(SERIES_STORE).hasSeason(seriesid, season)) {
-            this.getContext().executeAction(seriesActions.loadSeason, {
+            this.executeAction(seriesActions.loadSeason, {
                 seriesid: seriesid,
                 season: season
             });
@@ -68,7 +68,6 @@ var Season = React.createClass({
                 <Col md={3}><FirstAired aired={episode.FirstAired} /></Col>
                 <Col md={3} className="text-right">
                     <EpisodeDownload
-                        context={this.props.context}
                         seriesid={this.getParams().seriesid}
                         season={this.state.season}
                         episode={episode.EpisodeNumber} />
