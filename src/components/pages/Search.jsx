@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
+var State = require('react-router').State;
 var Bootstrap = require('react-bootstrap');
 var Grid = Bootstrap.Grid;
 var Row = Bootstrap.Row;
@@ -7,45 +8,32 @@ var Col = Bootstrap.Col;
 var Promise = require('bluebird');
 var _ = require('lodash');
 
+var FluxMixin = require('../../utils/FluxMixin');
 var SeriesThumbnail = require('../partials/SeriesThumbnail.jsx');
 var searchActions = require('../../actions/searchActions');
+var SEARCH_STORE = require('../../stores/SearchStore').storeName;
+
 
 var Search = React.createClass({
+    mixins: [State, FluxMixin],
 
-    getInitialState: function () {
-        this.context = this.props.context;
-        this.SearchStore = this.context.getStore('SearchStore');
-        return this.SearchStore.getContents() || {};
+    getStateFromStores: function () {
+        return this.getStore(SEARCH_STORE).getContents() || {};
     },
 
-    executeSearch: function (query) {
-        this.context.executeAction(searchActions.search, query);
+    getStoresToListenTo: function () {
+        return [SEARCH_STORE];
     },
 
-    componentDidMount: function () {
-        this.SearchStore.addChangeListener(this._onChange);
-        this.executeSearch(this.props.params.query);
-    },
-
-    componentWillUnmount: function () {
-        this.SearchStore.removeChangeListener(this._onChange);
-    },
-
-    componentWillReceiveProps: function (nextProps) {
-        this.context = this.props.context;
-        this.SearchStore = this.context.getStore('SearchStore');
-        this.executeSearch(nextProps.params.query);
-    },
-
-    _onChange: function () {
-        this.setState(this.SearchStore.getContents());
+    initStores: function () {
+        this.getContext().executeAction(searchActions.search, this.getParams().query);
     },
 
     render: function () {
         return (
             <div>
                 <Grid>
-                    <h1>Search for "{this.props.params.query}"</h1>
+                    <h1>Search for "{this.getParams().query}"</h1>
                     <br />
                 </Grid>
                 <Grid>

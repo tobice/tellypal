@@ -1,5 +1,4 @@
 var Context = require('./utils/Context');
-var AppRoutes = require('./AppRoutes.jsx');
 var SearchStore = require('./stores/SearchStore.js');
 var SeriesStore = require('./stores/SeriesStore.js');
 var NotificationStore = require('./stores/NotificationStore');
@@ -24,8 +23,8 @@ function TellyPal(options) {
     }
 }
 
-TellyPal.prototype.getRoutes = function () {
-    return AppRoutes.get(this.context.getComponentContext());
+TellyPal.prototype.getComponentContext = function () {
+    return this.context.getComponentContext();
 };
 
 module.exports = TellyPal;

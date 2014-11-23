@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
+var State = require('react-router').State;
 var _ = require('lodash');
 
 var Bootstrap = require('react-bootstrap');
@@ -18,12 +19,13 @@ var seriesHelpers = require('../../utils/seriesHelpers.jsx');
 var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 
 var Season = React.createClass({
-    mixins: [FluxMixin],
+    mixins: [State, FluxMixin],
 
     getStateFromStores: function (props) {
         props = props || this.props;
-        var seriesid = props.params.seriesid;
-        var season = props.params.season || props.defaultSeason;
+        var params = this.getParams();
+        var seriesid = params.seriesid;
+        var season = params.season || props.defaultSeason;
         return {
             season: season,
             episodes: this.getStore(SERIES_STORE).getSeason(seriesid, season) || null
@@ -35,8 +37,9 @@ var Season = React.createClass({
     },
 
     initStores: function (props) {
-        var seriesid = props.params.seriesid;
-        var season = props.params.season || props.defaultSeason;
+        var params = this.getParams();
+        var seriesid = params.seriesid;
+        var season = params.season || props.defaultSeason;
         if (!this.getStore(SERIES_STORE).hasSeason(seriesid, season)) {
             this.getContext().executeAction(seriesActions.loadSeason, {
                 seriesid: seriesid,
@@ -66,7 +69,7 @@ var Season = React.createClass({
                 <Col md={3} className="text-right">
                     <EpisodeDownload
                         context={this.props.context}
-                        seriesid={this.props.params.seriesid}
+                        seriesid={this.getParams().seriesid}
                         season={this.state.season}
                         episode={episode.EpisodeNumber} />
                 </Col>

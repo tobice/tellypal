@@ -2,11 +2,13 @@
 var _ = require('lodash');
 var React = require('react/addons');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var TimeoutTransitionGroup = require('./partials/TimeoutTransitionGroup.jsx');
 var Bootstrap = require('react-bootstrap');
 var FluxMixin = require('../utils/FluxMixin');
 var NotificationStore = require('../stores/NotificationStore');
 var Notification = require('./partials/Notification.jsx');
 var notificationActions = require('../actions/notificationActions');
+
 
 var Notifications = React.createClass({
     mixins: [FluxMixin],
@@ -37,11 +39,13 @@ var Notifications = React.createClass({
         // console.log(this.state.notifications);
         return (
             <div className="notifications">
-                <ReactCSSTransitionGroup transitionName="show">
+                <TimeoutTransitionGroup
+                    enterTimeout={500} leaveTimeout={500}
+                    transitionName="show">
                     {_.map(this.state.notifications, function (notification) {
                         return <Notification context={this.getContext()} notification={notification} key={notification.id}/>
                     }.bind(this))}
-                </ReactCSSTransitionGroup>
+                </TimeoutTransitionGroup>
             </div>);
     }
 });

@@ -7,18 +7,19 @@ module.exports = function (grunt) {
             debug: {
                 options: {
                     debug: true,
-                    transform: ['reactify'],
+                    transform: [
+                        ['reactify', {es6: true}]],
                     watch: true
                 },
                 files: {
-                    'public/scripts.js': 'src/client.js'
+                    'public/scripts.js': 'src/client.jsx'
                 }
             },
             build: {
                 options: {
                     debug: false,
                     transform: [
-                        'reactify',
+                        ['reactify', {es6: true}],
                         ['uglifyify', { global: true }]]
                 },
                 files: {

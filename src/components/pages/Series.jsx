@@ -1,8 +1,10 @@
 /** @jsx React.DOM */
 var _ = require('lodash');
 var React = require('react');
-var Link = require('react-router').Link;
-var ActiveState = require('react-router').ActiveState;
+var Router = require('react-router');
+var Link = Router.Link;
+var RouteHandler = Router.RouteHandler;
+var State = require('react-router').State;
 
 var Bootstrap = require('react-bootstrap');
 var Grid = Bootstrap.Grid;
@@ -22,12 +24,11 @@ var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 
 var Series = React.createClass({
 
-    mixins: [ActiveState, FluxMixin],
+    mixins: [State, FluxMixin],
 
-    getStateFromStores: function (props) {
-        props = props || this.props;
+    getStateFromStores: function () {
         return {
-            series: this.getStore(SERIES_STORE).getSeries(props.params.seriesid)
+            series: this.getStore(SERIES_STORE).getSeries(this.getParams().seriesid)
         }
     },
 
@@ -35,9 +36,10 @@ var Series = React.createClass({
         return [SERIES_STORE];
     },
 
-    initStores: function (props) {
-        if (!this.getStore(SERIES_STORE).hasSeries(props.params.seriesid)) {
-            this.getContext().executeAction(seriesActions.loadSeries, props.params.seriesid);
+    initStores: function () {
+        var seriesid = this.getParams().seriesid;
+        if (!this.getStore(SERIES_STORE).hasSeries(seriesid)) {
+            this.getContext().executeAction(seriesActions.loadSeries, seriesid);
         }
     },
 
@@ -110,7 +112,7 @@ var Series = React.createClass({
                     </Col>
                 </Row>
 
-                <this.props.activeRouteHandler context={this.props.context} defaultSeason={this.getDefaultSeason()} />
+                <RouteHandler context={this.props.context} defaultSeason={this.getDefaultSeason()} />
             </div>
         );
     },
@@ -118,7 +120,7 @@ var Series = React.createClass({
     renderSeasonTab: function (season) {
         // We could use Tab instead but we have to handle the default season
         var series = this.state.series;
-        var currentSeason = this.getActiveParams().season || this.getDefaultSeason();
+        var currentSeason = this.getParams().season || this.getDefaultSeason();
         return (
             <li key={season} className={season == currentSeason ? 'active' : ''}>
                 <Link to="season" params={{seriesid: series.id, season: season}}>

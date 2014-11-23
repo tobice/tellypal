@@ -1,4 +1,3 @@
-require('node-jsx').install({extension: '.jsx'});
 require('./utils/promisifySuperagent');
 require('../config.js');
 require('./utils/db');
@@ -11,6 +10,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 
 var TellyPal = require('./TellyPal.js');
+var AppRoutes = require('./AppRoutes.jsx');
 var torrentWs = require('./torrentWs');
 var bannerProxy = require('./utils/bannerProxy');
 var fetcherizeApi = require('./utils/fetcherizeApi');
@@ -29,8 +29,8 @@ app.use(function (req, res) {
     var fetcher = new Fetcher({ req: req });
     var tellyPal = new TellyPal({ fetcher: fetcher });
 
-    Router.renderRoutesToString(tellyPal.getRoutes(), req.path, function (err, abortReason, html) {
-        // var name = tellyPal.context.getActionContext().getStore('SeriesStore').getContents().series.SeriesName;
+    Router.run(AppRoutes, req.path, function (Handler) {
+        var html = React.renderToString(<Handler context={tellyPal.getComponentContext()} />);
         res.send('<!doctype html>' + html);
     });
 });

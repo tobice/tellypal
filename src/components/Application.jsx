@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Link = require('react-router').Link;
+var Router = require('react-router');
+var Link = Router.Link;
+var RouteHandler = Router.RouteHandler;
 var Navbar = require('./Navbar.jsx');
 var Notifications = require('./Notifications.jsx');
 
@@ -31,7 +33,7 @@ var Application = React.createClass({
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
-                                <this.props.activeRouteHandler context={this.props.context}/>
+                                <RouteHandler context={this.props.context}/>
                             </div>
                         </div>
                     </div>

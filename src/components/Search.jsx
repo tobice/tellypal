@@ -15,9 +15,9 @@ var Search = React.createClass({
         return { query: '' }
     },
 
-    handleSubmit: function () {
+    handleSubmit: function (e) {
+        e.preventDefault();
         this.transitionTo('search', {query: this.state.query});
-        return false;
     },
 
     render: function () {
