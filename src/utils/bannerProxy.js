@@ -1,7 +1,9 @@
+var debug = require('debug')('bannerProxy');
 var request = require('superagent');
 var fs = require('fs');
+var FileCache = require('./FileCache');
 var tvdb = require('../libs/tvdb.js');
-var debug = require('debug')('bannerProxy');
+var config = require('../../config');
 
 var BANNER_FALLBACK_PATH = './assets/images/banner-fallback/';
 var TYPES = {
@@ -10,6 +12,8 @@ var TYPES = {
     series: { width: 758, height: 140 },
     season: { width: 400, height: 578 }
 };
+
+var imageCache = new FileCache(config.imageCacheDir);
 
 function sendImage(res, imagedata) {
     res.header("Content-Type", "image/jpg");
@@ -46,14 +50,23 @@ var bannerProxy = {
             return res.status(400).end('Unknown banner type');
         }
 
-        tvdb.getBannerUrl(seriesid, type)
-            .then(downloadImage)
+        var cacheKey = seriesid + '_' + type;
+        imageCache.get(cacheKey)
             .then(function (imagedata) {
-                sendImage(res, imagedata)
-            })
-            .catch(function (err) {
-                debug(err);
-                sendFallbackImage(res, type);
+                if (imagedata) {
+                    sendImage(res, imagedata);
+                } else {
+                    tvdb.getBannerUrl(seriesid, type)
+                        .then(downloadImage)
+                        .then(function (imagedata) {
+                            imageCache.put(cacheKey, imagedata);
+                            sendImage(res, imagedata)
+                        })
+                        .catch(function (err) {
+                            debug(err);
+                            sendFallbackImage(res, type);
+                        });
+                }
             });
     }
 };
