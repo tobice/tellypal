@@ -60,6 +60,11 @@ TorrentsApi.prototype.downloadEpisode = function (seriesid, season, episode, qua
             // the Deluge client.
             torrent.name = torrent.title;
             return torrent;
+        })
+
+        .catch(function (error) {
+            debug(error);
+            throw error;
         });
 };
 

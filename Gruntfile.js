@@ -69,7 +69,7 @@ module.exports = function (grunt) {
                     ext: 'js,jsx',
                     ignore: ['node_modules/**', 'public/scripts.js'],
                     env: {
-                        DEBUG: ''
+                        DEBUG: 'tellypal:torrentApi'
                     }
                 }
             }

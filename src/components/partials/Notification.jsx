@@ -12,7 +12,7 @@ var Notification = React.createClass({
     },
 
     handleAlertDismiss: function () {
-        this.flux.executeAction(notificationActions.dismiss, this.props.notification.id);
+        this.context.flux.executeAction(notificationActions.dismiss, this.props.notification.id);
     },
 
     render: function () {
