@@ -19,6 +19,7 @@ var TORRENTUI_STORE = require('../../stores/TorrentUIStore').storeName;
 
 var EpisodeDownload = React.createClass({
     mixins: [FluxMixin],
+    storesToListenTo: [TORRENTUI_STORE],
 
     getStateFromStores: function (props) {
         props = props || this.props;
@@ -29,12 +30,6 @@ var EpisodeDownload = React.createClass({
             torrent: this.getStore(TORRENTUI_STORE).findTorrent(query)
         }
     },
-
-    getStoresToListenTo: function () {
-        return [TORRENTUI_STORE];
-    },
-
-    initStores: function () { },
 
     handleClick: function (quality) {
         var flux = this.getFlux();

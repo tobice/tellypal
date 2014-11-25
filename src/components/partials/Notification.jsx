@@ -44,8 +44,6 @@ var Notification = React.createClass({
                 return "info-circle";
         }
     }
-
-
 });
 
 module.exports = Notification;

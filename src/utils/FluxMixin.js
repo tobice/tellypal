@@ -19,38 +19,32 @@ var FluxMixin = {
     },
 
     getInitialState: function () {
-        invariant(
-            this.getStateFromStores,
-            'FluxMixin expects method getStateFromStores() to be defined'
-        );
+        if (!this.getStateFromStores) {
+            return null;
+        }
         return this.getStateFromStores();
     },
 
     componentDidMount: function () {
-        invariant(
-            this.getStoresToListenTo,
-            'FluxMixin expects method getStoresToListenTo() to be defined'
-        );
-        invariant(
-            this.initStores,
-            'FluxMixin expects method initStores() to be defined'
-        );
-
-        _.each(this.getStoresToListenTo(), function (store) {
-            this.getStore(store).addChangeListener(this._onChange);
-        }.bind(this));
-        this.initStores(this.props);
+        if (this.storesToListenTo) {
+            _.each(this.storesToListenTo, function (store) {
+                this.getStore(store).addChangeListener(this._onChange);
+            }.bind(this));
+        }
+        this.doInitStores(this.props);
     },
 
     componentWillUnmount: function () {
-        _.each(this.getStoresToListenTo(), function (store) {
-            this.getStore(store).removeChangeListener(this._onChange);
-        }.bind(this));
+        if (this.storesToListenTo) {
+            _.each(this.storesToListenTo, function (store) {
+                this.getStore(store).removeChangeListener(this._onChange);
+            }.bind(this));
+        }
     },
 
     componentWillReceiveProps: function (nextProps) {
         this.setState(this.getStateFromStores(nextProps));
-        this.initStores(nextProps);
+        this.doInitStores(nextProps);
     },
 
     _onChange: function () {
@@ -59,6 +53,12 @@ var FluxMixin = {
 
     executeAction: function (actionController, payload) {
         return this.getFlux().executeAction(actionController, payload);
+    },
+
+    doInitStores: function (props) {
+        if (this.initStores) {
+            this.initStores(props);
+        }
     }
 };
 

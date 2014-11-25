@@ -12,6 +12,7 @@ var notificationActions = require('../actions/notificationActions');
 
 var Notifications = React.createClass({
     mixins: [FluxMixin],
+    storesToListenTo: [NotificationStore.storeName],
 
     getStateFromStores: function () {
         var store = this.getStore(NotificationStore.storeName);
@@ -29,14 +30,7 @@ var Notifications = React.createClass({
         return { notifications: notifications }
     },
 
-    getStoresToListenTo: function () {
-        return [NotificationStore.storeName];
-    },
-
-    initStores: function () { },
-
     render: function () {
-        // console.log(this.state.notifications);
         return (
             <div className="notifications">
                 <TimeoutTransitionGroup
@@ -46,7 +40,8 @@ var Notifications = React.createClass({
                         return <Notification notification={notification} key={notification.id}/>
                     }.bind(this))}
                 </TimeoutTransitionGroup>
-            </div>);
+            </div>
+        );
     }
 });
 

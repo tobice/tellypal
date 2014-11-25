@@ -24,15 +24,12 @@ var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 
 var Series = React.createClass({
     mixins: [State, FluxMixin],
+    storesToListenTo: [SERIES_STORE],
 
     getStateFromStores: function () {
         return {
             series: this.getStore(SERIES_STORE).getSeries(this.getParams().seriesid)
         }
-    },
-
-    getStoresToListenTo: function () {
-        return [SERIES_STORE];
     },
 
     initStores: function () {

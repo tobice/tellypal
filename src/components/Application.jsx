@@ -7,15 +7,7 @@ var Navbar = require('./Navbar.jsx');
 var Notifications = require('./Notifications.jsx');
 
 var Application = React.createClass({
-
-    /*
-    statics: {
-        willTransitionTo: function (transition, params, query, props) {
-            var context = props.context;
-            transition.wait(context.executeAction(require('../actions/seriesActions').loadSeries, 80348));
-        }
-    },
-    */
+    
     childContextTypes: {
         flux: React.PropTypes.object.isRequired
     },

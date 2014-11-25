@@ -4,7 +4,6 @@ var Link = require('react-router').Link;
 var ActiveState = require('react-router').ActiveState;
 
 var Tab = React.createClass({
-
     mixins: [ActiveState],
 
     render: function () {

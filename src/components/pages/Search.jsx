@@ -16,13 +16,10 @@ var SEARCH_STORE = require('../../stores/SearchStore').storeName;
 
 var Search = React.createClass({
     mixins: [State, FluxMixin],
+    storesToListenTo: [SEARCH_STORE],
 
     getStateFromStores: function () {
         return this.getStore(SEARCH_STORE).getContents() || {};
-    },
-
-    getStoresToListenTo: function () {
-        return [SEARCH_STORE];
     },
 
     initStores: function () {

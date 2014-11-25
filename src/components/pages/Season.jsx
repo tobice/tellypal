@@ -20,6 +20,7 @@ var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 
 var Season = React.createClass({
     mixins: [State, FluxMixin],
+    storesToListenTo: [SERIES_STORE],
 
     getStateFromStores: function (props) {
         props = props || this.props;
@@ -30,10 +31,6 @@ var Season = React.createClass({
             season: season,
             episodes: this.getStore(SERIES_STORE).getSeason(seriesid, season) || null
         }
-    },
-
-    getStoresToListenTo: function () {
-        return [SERIES_STORE];
     },
 
     initStores: function (props) {
