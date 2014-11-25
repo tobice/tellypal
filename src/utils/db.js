@@ -1,27 +1,39 @@
+var fs = require('fs');
+var warehouse = require('warehouse');
+var debug = require('debug')('tellypal:db');
+var _ = require('lodash');
+
 var config = require('../../config');
-var Promise = require('bluebird');
-var mongoose = require('mongoose');
-var debug = require('debug')('mongodb');
-Promise.promisifyAll(mongoose);
+var DownloadJobSchema = require('../schemas/DownloadJob');
 
-var dbURI = config.mongodbURI;
-mongoose.connect('mongodb://localhost/tellypal');
+var db = new warehouse({ path: config.db });
+if (fs.existsSync(config.db)) {
+    load();
+}
 
-mongoose.connection.on('connected', function () {
-    debug('Mongoose default connection open to ' + dbURI);
-});
-mongoose.connection.on('error', function (err) {
-    debug('Mongoose default connection error: ' + err);
-});
-mongoose.connection.on('disconnected', function () {
-    debug('Mongoose default connection disconnected');
+function load() {
+    db.load().then(function () {
+        debug('Database loaded');
+    })
+}
+
+function save() {
+    db.save().then(function () {
+        debug('Database saved');
+    })
+}
+
+// Create database schema
+var models = {
+    DownloadJob: db.model('downloadJob', DownloadJobSchema)
+};
+
+// Make sure that the database gets saved to the disk every time the model is
+// changed
+_.each(models, function (model) {
+    model.addListener('insert', save);
+    model.addListener('update', save);
+    model.addListener('remove', save);
 });
 
-// If the Node process ends, close the Mongoose connection
-process.on('SIGINT', function () {
-    mongoose.connection.close(function () {
-        debug('Mongoose default connection disconnected through app termination');
-        process.exit(0);
-    });
-});
-
+module.exports = models;

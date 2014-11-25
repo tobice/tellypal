@@ -12,9 +12,9 @@ moment.locale('en', {
 });
 
 var config = {
-    mongodbURI: 'mongodb://localhost/tellypal',
     downloadDir: '/home/tobik/downloads/torrents',
     imageCacheDir: './var/imageCache',
+    db: './var/db.json',
     deluge: {
         apiUrl: 'http://localhost:8112/json',
         password: 'deluge'

@@ -1,25 +1,25 @@
-var DownloadJob = require('../model/DownloadJob');
-require('../utils/db');
+var db = require('../utils/db');
+var Promise = require('bluebird');
 
 var myLibrary = {
 
     addDownloadJob: function (hash, seriesid, SeriesName, jobDescription) {
-        DownloadJob.removeAsync({ hash: hash})
-            .then(function () {
-                return new DownloadJob({
+        return db.DownloadJob.remove({hash: hash})
+            .then(function() {
+                db.DownloadJob.insert({
                     hash: hash,
                     seriesid: seriesid,
                     SeriesName: SeriesName,
                     jobDescription: jobDescription
-                }).saveAsync();
+                });
             })
     },
 
     getDownloadJob: function (hash) {
-        return DownloadJob.findAsync({ hash: hash })
-            .then(function (jobs) {
-                return jobs[0];
-            });
+        return new Promise(function (resolve) {
+            var query = db.DownloadJob.find({hash: hash});
+            resolve(query.first());
+        });
     }
 };
 
