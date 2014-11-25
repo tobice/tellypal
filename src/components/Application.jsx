@@ -7,7 +7,7 @@ var Navbar = require('./Navbar.jsx');
 var Notifications = require('./Notifications.jsx');
 
 var Application = React.createClass({
-    
+
     childContextTypes: {
         flux: React.PropTypes.object.isRequired
     },

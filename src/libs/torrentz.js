@@ -7,8 +7,8 @@ var printf = require('printf');
 var Promise = require('bluebird');
 var bl = require("bl");
 
-var SEARCH_URL = 'https://torrentz.eu/feed';
-var VERIFIED_SEARCH_URL = 'https://torrentz.eu/feed_verified';
+var SEARCH_URL = 'https://torrentz.com/feed';
+var VERIFIED_SEARCH_URL = 'https://torrentz.com/feed_verified';
 var TRACKER = 'udp://tracker.openbittorrent.com/announce';
 
 function makeUrl (q, minSeeds) {

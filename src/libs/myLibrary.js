@@ -16,7 +16,10 @@ var myLibrary = {
     },
 
     getDownloadJob: function (hash) {
-        return DownloadJob.findAsync({ hash: hash });
+        return DownloadJob.findAsync({ hash: hash })
+            .then(function (jobs) {
+                return jobs[0];
+            });
     }
 };
 

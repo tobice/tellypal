@@ -46,7 +46,7 @@ TorrentsApi.prototype.downloadEpisode = function (seriesid, season, episode, qua
         // Add new download job to local database
         .then(function () {
             debug('Torrent added to Deluge');
-            var jobDescription = printf("Season %i, Episode %i", season, episode);
+            var jobDescription = printf("%ix%i %s", season, episode, series.seasons[season][episode].EpisodeName);
             return myLibrary.addDownloadJob(torrent.hash, seriesid, series.SeriesName, jobDescription);
         })
 
