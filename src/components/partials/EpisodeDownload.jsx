@@ -13,7 +13,7 @@ var seriesHelpers = require('../../utils/seriesHelpers.jsx');
 var FluxMixin = require('../../utils/FluxMixin');
 var torrentActions = require('../../actions/torrentActions');
 var notificationActions = require('../../actions/notificationActions');
-var NotificationStore = require('../../stores/NotificationStore');
+var consts = require('../../consts');
 var SERIES_STORE = require('../../stores/SeriesStore').storeName;
 var TORRENTUI_STORE = require('../../stores/TorrentUIStore').storeName;
 
@@ -45,10 +45,10 @@ var EpisodeDownload = React.createClass({
         flux.executeAction(torrentActions.downloadEpisode, params)
             .then(function (torrent) {
                 var message = 'Torrent ' + torrent.name + ' has been added for download';
-                flux.notify('Downloading started!', message, NotificationStore.INFO);
+                flux.notify('Downloading started!', message, consts.INFO);
             })
             .catch(function (err) {
-                flux.notify('Downloading episode failed', err.responseText, NotificationStore.DANGER);
+                flux.notify('Downloading episode failed', err.responseText, consts.DANGER);
             })
             .finally(function () {
                 this.setState({loading: false});

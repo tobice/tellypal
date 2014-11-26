@@ -16,8 +16,6 @@ var If = require('./If.jsx');
 var Icon = require('./Icon.jsx');
 
 var torrentActions = require('../../actions/torrentActions');
-var notificationActions = require('../../actions/notificationActions');
-var NotificationStore = require('../../stores/NotificationStore');
 var stringHelpers = require('../../utils/stringHelpers');
 
 var TorrentJob = React.createClass({

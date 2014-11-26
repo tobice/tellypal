@@ -8,11 +8,6 @@ function NotificationStore(dispatcher) {
     this._notifications = [];
 }
 
-NotificationStore.SUCCESS = 'success';
-NotificationStore.INFO = 'info';
-NotificationStore.DANGER = 'danger';
-NotificationStore.WARNING = 'warning';
-
 NotificationStore.NEW = 'new';
 NotificationStore.SHOWING = 'showing';
 NotificationStore.DISMISSED = 'dismissed';

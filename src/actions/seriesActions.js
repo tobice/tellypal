@@ -1,5 +1,5 @@
 var SeriesStore = require('../stores/SeriesStore');
-var NotificationStore = require('../stores/NotificationStore');
+var consts = require('../consts');
 
 var seriesActions = {
 
@@ -16,7 +16,7 @@ var seriesActions = {
             })
             .catch(function (error) {
                 console.log(error);
-                flux.notify('Error', 'Failed to load the series', NotificationStore.DANGER);
+                flux.notify('Error', 'Failed to load the series', consts.DANGER);
             });
     },
 
@@ -37,7 +37,7 @@ var seriesActions = {
             })
             .catch(function (error) {
                 console.log(error);
-                flux.notify('Error', 'Failed to load the season', NotificationStore.DANGER);
+                flux.notify('Error', 'Failed to load the season', consts.DANGER);
             })
     }
 };

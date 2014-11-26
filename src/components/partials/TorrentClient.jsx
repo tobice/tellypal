@@ -7,9 +7,6 @@ var Row = Bootstrap.Row;
 var Col = Bootstrap.Col;
 
 var FluxMixin = require('../../utils/FluxMixin');
-var torrentActions = require('../../actions/torrentActions');
-var notificationActions = require('../../actions/notificationActions');
-var NotificationStore = require('../../stores/NotificationStore');
 var TORRENTUI_STORE = require('../../stores/TorrentUIStore').storeName;
 
 var TorrentJob = require('./TorrentJob.jsx');

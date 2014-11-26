@@ -3,8 +3,8 @@
 var React = require('react');
 var Bootstrap = require('react-bootstrap');
 var Alert = Bootstrap.Alert;
-var NotificationStore = require('../../stores/NotificationStore');
 var notificationActions = require('../../actions/notificationActions');
+var consts = require('../../consts');
 
 var Notification = React.createClass({
     contextTypes: {
@@ -36,10 +36,10 @@ var Notification = React.createClass({
 
     getIconType: function (type) {
         switch (type) {
-            case NotificationStore.SUCCESS: return "check";
-            case NotificationStore.DANGER: return "times";
-            case NotificationStore.WARNING: return "warning";
-            case NotificationStore.INFO:
+            case consts.SUCCESS: return "check";
+            case consts.DANGER: return "times";
+            case consts.WARNING: return "warning";
+            case consts.INFO:
             default:
                 return "info-circle";
         }

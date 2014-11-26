@@ -1,7 +1,7 @@
 var EventEmitter = require('event-emitter');
 var debug = require('debug')('tellyPal:socket');
 var config = require('../../config');
-var NotificationStore = require('../stores/NotificationStore');
+var consts = require('../consts');
 
 var ee = EventEmitter();
 
@@ -16,7 +16,7 @@ var socket = {
 
         ws.onclose = function () {
             debug('Closed WebSocket connection!');
-            flux.notify('Lost connection!', 'Connection to the TellyPal server has been lost. Refresh to reconnect.', NotificationStore.DANGER);
+            flux.notify('Lost connection!', 'Connection to the TellyPal server has been lost. Refresh to reconnect.', consts.DANGER);
         };
 
         ws.onmessage = function (message) {

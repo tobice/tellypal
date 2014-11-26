@@ -30,7 +30,7 @@ notificationActions = {
             status: NotificationStore.SHOWING
         });
 
-        // Dismiss notifications after duration expires
+        // Dismiss notifications after duration have expired
         _.each(notifications, function (notification) {
             setTimeout(function () {
                 flux.dispatch('NOTIFICATION_SET_STATUS', {

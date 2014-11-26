@@ -1,5 +1,4 @@
 var socket = require('../utils/socketClient');
-var NotificationStore = require('../stores/NotificationStore');
 var TORRENTUI_STORE = require('../stores/TorrentUIStore').storeName;
 
 var torrentActions = {
