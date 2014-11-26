@@ -1,4 +1,4 @@
-var debug = require('debug')('torrentWs');
+var socket = require('../utils/socketClient');
 var NotificationStore = require('../stores/NotificationStore');
 var TORRENTUI_STORE = require('../stores/TorrentUIStore').storeName;
 
@@ -9,8 +9,11 @@ var torrentActions = {
         return torrents.call('downloadEpisode', params.seriesid, params.season, params.episode, params.quality);
     },
 
-    updateUi: function (flux) {
-        var host = window.document.location.host.replace(/:.*/, '');
+    updateUi: function (flux, uiState) {
+        flux.dispatch('TORRENTUI_UPDATE_STATE', uiState);
+
+        //var host = window.document.location.host.replace(/:.*/, '');
+        /*
         var ws = new WebSocket('ws://' + host + ':3001'); // TODO: ports from config
         var torrentUIStore = flux.getStore(TORRENTUI_STORE);
         ws.onopen = function () {
@@ -38,6 +41,7 @@ var torrentActions = {
 
             flux.dispatch('TORRENTUI_UPDATE_STATE', JSON.parse(event.data));
         };
+        */
     }
 };
 

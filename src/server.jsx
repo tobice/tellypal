@@ -1,6 +1,7 @@
 require('./utils/promisifySuperagent');
-require('../config.js');
 require('./utils/db');
+
+var config = require('../config.js');
 
 var React = require('react');
 var Router = require('react-router');
@@ -11,7 +12,8 @@ var compression = require('compression');
 
 var TellyPal = require('./TellyPal.js');
 var AppRoutes = require('./AppRoutes.jsx');
-var torrentWs = require('./torrentWs');
+var socket = require('./utils/socketServer');
+var daemon = require('./daemon');
 var bannerProxy = require('./utils/bannerProxy');
 var fetcherizeApi = require('./utils/fetcherizeApi');
 
@@ -35,8 +37,9 @@ app.use(function (req, res) {
     });
 });
 
-var server = app.listen(process.env.PORT || 3000, function () {
+var server = app.listen(process.env.PORT || config.port, function () {
     console.log('Listening on port %d', server.address().port);
 });
 
-torrentWs(3001);
+socket.listen(config.socketPort);
+daemon.run();

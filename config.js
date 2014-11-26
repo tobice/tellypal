@@ -15,6 +15,8 @@ var config = {
     downloadDir: '/home/tobik/downloads/torrents',
     imageCacheDir: './var/imageCache',
     db: './var/db.json',
+    port: 3000,
+    socketPort: 3001,
     deluge: {
         apiUrl: 'http://localhost:8112/json',
         password: 'deluge'
