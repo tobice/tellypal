@@ -8,6 +8,7 @@ var NavItem = Bootstrap.NavItem;
 var Link = require('react-router').Link;
 
 var Search = require('./Search.jsx');
+var TorrentSpeed = require('./partials/TorrentSpeed.jsx');
 
 var NavbarComponent = React.createClass({
 
@@ -33,6 +34,9 @@ var NavbarComponent = React.createClass({
                         </ul>
 
                         <Search />
+                        <div className="navbar-torrent-speed">
+                            <TorrentSpeed />
+                        </div>
                     </div>
                 </div>
             </Navbar>
