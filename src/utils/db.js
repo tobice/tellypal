@@ -8,9 +8,6 @@ var DownloadJobSchema = require('../schemas/DownloadJob');
 var NotificationSchema = require('../schemas/Notification');
 
 var db = new warehouse({ path: config.db });
-var dirty = false;
-var saving = false;
-
 if (fs.existsSync(config.db)) {
     load();
 }
@@ -21,19 +18,16 @@ function load() {
     })
 }
 
+var savingPromise;
 function save() {
-    if (dirty && !saving) {
-        saving = true;
-        dirty = false;
-        db.save().then(function () {
-            debug('Database saved');
-            saving = false;
-        })
+    if (!savingPromise) {
+        savingPromise = db.save();
+    } else {
+        savingPromise = savingPromise.then(db.save.bind(db));
     }
-}
-
-function setDirty() {
-    dirty = true;
+    savingPromise.then(function () {
+        debug('Database saved');
+    });
 }
 
 // Create database schema
@@ -45,11 +39,9 @@ var models = {
 // Make sure that the database gets saved to the disk every time the model is
 // changed
 _.each(models, function (model) {
-    model.addListener('insert', setDirty);
-    model.addListener('update', setDirty);
-    model.addListener('remove', setDirty);
+    model.addListener('insert', save);
+    model.addListener('update', save);
+    model.addListener('remove', save);
 });
-
-setInterval(save, 1000);
 
 module.exports = models;
