@@ -5,6 +5,7 @@ var _ = require('lodash');
 
 var config = require('../../config');
 var DownloadJobSchema = require('../schemas/DownloadJob');
+var NotificationSchema = require('../schemas/Notification');
 
 var db = new warehouse({ path: config.db });
 if (fs.existsSync(config.db)) {
@@ -25,7 +26,8 @@ function save() {
 
 // Create database schema
 var models = {
-    DownloadJob: db.model('downloadJob', DownloadJobSchema)
+    DownloadJob: db.model('downloadJob', DownloadJobSchema),
+    Notification: db.model('notification', NotificationSchema)
 };
 
 // Make sure that the database gets saved to the disk every time the model is

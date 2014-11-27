@@ -26,3 +26,6 @@ socket.connect(config.socketPort, tellyPal.flux);
 socket.addListener('updateUi', function (payload) {
     tellyPal.flux.executeAction(torrentActions.updateUi, payload);
 });
+socket.addListener('notify', function (payload) {
+   tellyPal.flux.notify(payload.title, payload.message, payload.type, payload.duration);
+});

@@ -43,3 +43,11 @@ var server = app.listen(process.env.PORT || config.port, function () {
 
 socket.listen(config.socketPort);
 daemon.run();
+
+// Test notification system
+var readline = require('readline');
+var notifications = require('./libs/notifications');
+var rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+rl.on('line', function (line) {
+    notifications.notify('Command line notification', line, 'info', 5000);
+});
