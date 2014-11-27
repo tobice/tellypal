@@ -2,6 +2,9 @@ var debug = require('debug')('tellypal:torrentApi');
 var _ = require('lodash');
 var printf = require('printf');
 var Promise = require('bluebird');
+
+var consts = require('./../consts');
+var notifications = require('./../libs/notifications');
 var tvdb = require('./../libs/tvdb');
 var torrentz = require('./../libs/torrentz');
 var myLibrary = require('./../libs/myLibrary');
@@ -59,6 +62,13 @@ TorrentsApi.prototype.downloadEpisode = function (seriesid, season, episode, qua
             // torrent record, as the torrent might not be yet initialized in
             // the Deluge client.
             torrent.name = torrent.title;
+            return torrent;
+        })
+
+        // Send notification
+        .then(function (torrent) {
+            var message = 'Torrent ' + torrent.name + ' has been added for download';
+            notifications.notify('Downloading started!', message, consts.INFO);
             return torrent;
         })
 
