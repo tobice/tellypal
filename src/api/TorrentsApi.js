@@ -17,6 +17,18 @@ function TorrentsApi(req, config) {
     this.config = config;
 }
 
+TorrentsApi.prototype.remove = function (hash, withData) {
+    return deluge.call('core.remove_torrent', [hash, withData]);
+};
+
+TorrentsApi.prototype.pause = function (hash) {
+    return deluge.call('core.pause_torrent', [[hash]]);
+};
+
+TorrentsApi.prototype.resume = function (hash) {
+    return deluge.call('core.resume_torrent', [[hash]]);
+};
+
 TorrentsApi.prototype.downloadEpisode = function (seriesid, season, episode, quality) {
     var torrent, series, query;
     debug('Looking for series');

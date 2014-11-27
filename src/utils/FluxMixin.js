@@ -43,12 +43,16 @@ var FluxMixin = {
     },
 
     componentWillReceiveProps: function (nextProps) {
-        this.setState(this.getStateFromStores(nextProps));
+        if (this.getStateFromStores) {
+            this.setState(this.getStateFromStores(nextProps));
+        }
         this.doInitStores(nextProps);
     },
 
     _onChange: function () {
-        this.setState(this.getStateFromStores());
+        if (this.getStateFromStores) {
+            this.setState(this.getStateFromStores());
+        }
     },
 
     executeAction: function (actionController, payload) {

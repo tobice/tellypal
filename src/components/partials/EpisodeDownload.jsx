@@ -43,9 +43,6 @@ var EpisodeDownload = React.createClass({
 
         this.setState({loading: true});
         flux.executeAction(torrentActions.downloadEpisode, params)
-            .catch(function (err) {
-                flux.notify('Downloading episode failed', err.responseText, consts.DANGER);
-            })
             .finally(function () {
                 this.setState({loading: false});
             }.bind(this));
