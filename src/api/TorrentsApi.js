@@ -119,6 +119,14 @@ TorrentsApi.prototype.updateUi = function () {
                 uiState.torrents[hash].job = job;
             });
 
+            // Torrents that don't have matching download job are probably not
+            // managed by tellypal, so let's remove them from the list
+            _.each(uiState.torrents, function (torrent, hash) {
+               if (!torrent.job) {
+                   delete uiState.torrents[hash];
+               }
+            });
+
             // Fetch latest finished jobs
             return myLibrary.getFinishedDownloadJobs(4);
         })
