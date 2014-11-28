@@ -1,13 +1,32 @@
 var Promise = require('bluebird');
 var moment = require('moment');
+var _ = require('lodash');
 var db = require('../utils/db');
 
 var myLibrary = {
 
+    addSeries: function (series) {
+        var episodes = [];
+        _.each(series.seasons, function (season) {
+            _.each(season, function (episode) {
+                // Remember the series name with the episode to improve
+                // querying
+                episode.SeriesName = series.SeriesName;
+                episodes.push(episode);
+            })
+        });
+
+        return db.Episode.insert(episodes)
+            .then(function() {
+                delete series.seasons;
+                return db.Series.insert(series);
+            })
+    },
+
     addDownloadJob: function (hash, seriesid, SeriesName, jobDescription) {
         return db.DownloadJob.remove({hash: hash})
             .then(function() {
-                db.DownloadJob.insert({
+                return db.DownloadJob.insert({
                     hash: hash,
                     seriesid: seriesid,
                     SeriesName: SeriesName,
@@ -37,11 +56,8 @@ var myLibrary = {
     },
 
     setDownloadJobFinished: function (hash) {
-        return new Promise(function (resolve) {
-            var query = db.DownloadJob.find({hash: hash});
-            query.update({ finished: moment().format() });
-            resolve();
-        });
+        var query = db.DownloadJob.find({hash: hash});
+        return query.update({ finished: moment().format() });
     }
 };
 

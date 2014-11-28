@@ -3,6 +3,14 @@ var consts = require('../consts');
 
 var seriesActions = {
 
+    addSeriesToLibrary: function (flux, seriesid) {
+        var tvshows = flux.getApi('TvshowsApi');
+        return tvshows.call('addSeriesToLibrary', seriesid)
+            .then(function () {
+                flux.notify('Success', 'The series has been added to your library', consts.SUCCESS);
+            })
+    },
+
     /**
      * @param {object} flux
      * @param {string} seriesid - Series ID to search for

@@ -39,6 +39,11 @@ var Series = React.createClass({
         }
     },
 
+    addToLibrary: function () {
+        var seriesid = this.getParams().seriesid;
+        this.executeAction(seriesActions.addSeriesToLibrary, seriesid);
+    },
+
     render: function () {
         var series = this.state.series;
         if (!series) {
@@ -65,7 +70,7 @@ var Series = React.createClass({
                     </Col>
                     <Col sm={9}>
                         <div className="pull-right">
-                            <Button bsStyle="primary">
+                            <Button bsStyle="primary" onClick={this.addToLibrary}>
                                 <i className="fa fa-plus" /> Add to my library
                             </Button>
                         </div>

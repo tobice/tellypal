@@ -1,5 +1,6 @@
-var tvdb = require('./../libs/tvdb');
 var Promise = require('bluebird');
+var tvdb = require('../libs/tvdb');
+var myLibrary = require('../libs/myLibrary');
 
 function TvshowsApi (req, config) {
     this.req = req;
@@ -21,6 +22,13 @@ TvshowsApi.prototype.getSeries = function (seriesid) {
             series.seasons = null;
             return series;
         });
+};
+
+TvshowsApi.prototype.addSeriesToLibrary = function (seriesid) {
+    return tvdb.getSeries(seriesid)
+        .then(function (series) {
+            return myLibrary.addSeries(series);
+        })
 };
 
 module.exports = TvshowsApi;
