@@ -2,6 +2,7 @@ var _ = require('lodash');
 var TorrentApi = require('./api/TorrentsApi');
 var socket = require('./utils/socketServer');
 var notifications = require('./libs/notifications');
+var myLibrary = require('./libs/myLibrary');
 var torrentApi = new TorrentApi();
 var consts = require('./consts');
 
@@ -21,6 +22,8 @@ var daemon = {
                         if (torrent && torrent.progress != 100 && torrents[hash].progress == 100) {
                             var message = 'Torrent ' + torrent.name + ' has been successfully downloaded.';
                             notifications.notify('Torrent finished!', message, consts.SUCCESS);
+                            myLibrary.setDownloadJobFinished(hash);
+                            torrentApi.remove(hash, false);
                         }
                     }
                 }

@@ -119,11 +119,14 @@ TorrentsApi.prototype.updateUi = function () {
                 uiState.torrents[hash].job = job;
             });
 
+            // Fetch latest finished jobs
+            return myLibrary.getFinishedDownloadJobs(4);
+        })
+        .then(function (finished) {
+            // Add finished jobs to the uiState object
+            uiState.finished = finished;
             return uiState;
         });
 };
-
-new TorrentsApi().updateUi().then();
-
 
 module.exports = TorrentsApi;

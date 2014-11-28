@@ -5,7 +5,8 @@ var downloadJob = new Schema({
     hash: String,
     seriesid: Number,
     SeriesName: String,
-    jobDescription: String
+    jobDescription: String,
+    finished: String
 });
 
 module.exports = downloadJob;
