@@ -11,11 +11,11 @@ var SeriesThumbnail = React.createClass({
         var series = this.props.series;
         return (
             <div className="thumbnail">
-                <Link to="series" params={{ seriesid: series.seriesid }}>
+                <Link to="series" params={{ seriesid: series.id }}>
                     <Banner seriesid={series.id} type="poster" />
                 </Link>
                 <div className="caption">
-                    <h4><Link to="series" params={{ seriesid: series.seriesid }}>{series.SeriesName}</Link></h4>
+                    <h4><Link to="series" params={{ seriesid: series.id }}>{series.SeriesName}</Link></h4>
                     <p className="text-muted">{seriesHelpers.getYear(series.FirstAired)}</p>
                 </div>
             </div>

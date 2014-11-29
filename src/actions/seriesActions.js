@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var SeriesStore = require('../stores/SeriesStore');
 var consts = require('../consts');
 
@@ -12,6 +13,16 @@ var seriesActions = {
             .catch(function (error) {
                 console.log(error);
                 flux.notify('Error', error.message, consts.DANGER);
+            });
+    },
+
+    loadMyLibrary: function (flux) {
+        var tvshows = flux.getApi('TvshowsApi');
+        return tvshows.call('getMyLibrary')
+            .then(function (series) {
+                _.each(series, function (s) {
+                    flux.dispatch('SERIES_ADD', {series: s});
+                });
             });
     },
 

@@ -24,7 +24,15 @@ var tvdb = {
             .then(function (json) {
                 return json.Data.Series;
             })
-            .then(xmlHelpers.cleanObjects);
+            .then(xmlHelpers.cleanObjects)
+            .then(function (series) {
+                _.each(series, function (s) {
+                    // The record format returned by search does not contain
+                    // property 'id', only 'seriesid' which might get confusing
+                    s.id = s.seriesid;
+                });
+                return series;
+            });
     },
 
     /**

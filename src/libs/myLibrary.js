@@ -30,8 +30,11 @@ var myLibrary = {
 
     getSeries: function (seriesid) {
         return new Promise(function (resolve) {
-            var query = db.Series.find({id: seriesid});
-            resolve(query.first());
+            if (seriesid) {
+                resolve(db.Series.find({id: seriesid}).first());
+            } else {
+                resolve(db.Series.find({}).toArray());
+            }
         });
     },
 

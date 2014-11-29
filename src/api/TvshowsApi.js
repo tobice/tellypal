@@ -32,6 +32,10 @@ TvshowsApi.prototype.getSeries = function (seriesid) {
         });
 };
 
+TvshowsApi.prototype.getMyLibrary = function () {
+    return myLibrary.getSeries();
+};
+
 TvshowsApi.prototype.addSeriesToLibrary = function (seriesid) {
     return tvdb.getSeries(seriesid)
         .then(function (series) {

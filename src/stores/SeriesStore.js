@@ -1,4 +1,5 @@
 var util = require('util');
+var _ = require('lodash');
 var BaseStore = require('dispatchr/utils/BaseStore');
 
 function SeriesStore(dispatcher) {
@@ -14,6 +15,10 @@ SeriesStore.handlers = {
 };
 
 util.inherits(SeriesStore, BaseStore);
+
+SeriesStore.prototype.getMyLibrary = function () {
+    return _.filter(this._series, { inMyLibrary: true });
+};
 
 SeriesStore.prototype.addSeries = function (payload) {
     var series = payload.series;
