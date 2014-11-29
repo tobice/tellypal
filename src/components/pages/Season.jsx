@@ -10,7 +10,6 @@ var Col = Bootstrap.Col;
 var Button = Bootstrap.Button;
 
 var Loading = require('../partials/Loading.jsx');
-var FirstAired = require('../partials/FirstAired.jsx');
 var If = require('../partials/If.jsx');
 var EpisodeDownload = require('../partials/EpisodeDownload.jsx');
 var FluxMixin = require('../../utils/FluxMixin');
@@ -59,15 +58,20 @@ var Season = React.createClass({
     },
 
     renderEpisode: function (episode) {
+        var isAired = seriesHelpers.isAired(episode.FirstAired);
         return (
-            <Row key={episode.EpisodeNumber}>
+            <Row key={episode.EpisodeNumber} className={isAired ? 'episode-aired' : 'episode-upcoming'}>
                 <Col md={6}><strong>{episode.EpisodeNumber}.</strong> {episode.EpisodeName}</Col>
-                <Col md={3}><FirstAired aired={episode.FirstAired} /></Col>
+                <Col md={3}>
+                    {episode.FirstAired ? seriesHelpers.getAiredMoment(episode.FirstAired).calendar() : 'TBA'}
+                </Col>
                 <Col md={3} className="text-right">
-                    <EpisodeDownload
-                        seriesid={this.getParams().seriesid}
-                        season={this.state.season}
-                        episode={episode.EpisodeNumber} />
+                    <If test={isAired}>
+                        <EpisodeDownload
+                            seriesid={this.getParams().seriesid}
+                            season={this.state.season}
+                            episode={episode.EpisodeNumber} />
+                    </If>
                 </Col>
             </Row>
         )

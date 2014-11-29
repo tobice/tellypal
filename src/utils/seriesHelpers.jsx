@@ -30,6 +30,19 @@ var seriesHelpers = {
         return moment(aired + ' -0400', 'YYYY-MM-DD HH:mm Z');
     },
 
+    isAired: function (aired) {
+        if (!aired) {
+            return false;
+        }
+
+        var airedMoment = this.getAiredMoment(aired);
+        if (!airedMoment.isValid()) {
+            return false;
+        }
+
+        return moment().isAfter(airedMoment);
+    },
+
     makeQueryForEpisode: function (SeriesName, season, episode, quality) {
         quality = quality || '';
         return printf("%s S%02iE%02i %s", SeriesName, season, episode, quality).trim();
