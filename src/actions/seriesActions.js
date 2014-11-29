@@ -9,6 +9,10 @@ var seriesActions = {
             .then(function () {
                 flux.notify('Success', 'The series has been added to your library', consts.SUCCESS);
             })
+            .catch(function (error) {
+                console.log(error);
+                flux.notify('Error', error.message, consts.DANGER);
+            });
     },
 
     /**
@@ -24,7 +28,7 @@ var seriesActions = {
             })
             .catch(function (error) {
                 console.log(error);
-                flux.notify('Error', 'Failed to load the series', consts.DANGER);
+                flux.notify('Error', error.message, consts.DANGER);
             });
     },
 
@@ -45,7 +49,7 @@ var seriesActions = {
             })
             .catch(function (error) {
                 console.log(error);
-                flux.notify('Error', 'Failed to load the season', consts.DANGER);
+                flux.notify('Error', error.message, consts.DANGER);
             })
     }
 };

@@ -28,7 +28,10 @@ ClientApi.prototype.call = function () {
         // We use 'create' function to enforce POST function.
         fetcher.create(resource, {}, body, config, function (err, data) {
             if (err) {
-                reject(err);
+                var error = new Error(err.responseText);
+                error.statusText = err.statusText;
+                error.cause = err;
+                reject(error);
             } else {
                 resolve(data);
             }

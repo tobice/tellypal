@@ -17,6 +17,7 @@ var Badge = Bootstrap.Badge;
 var Banner = require('../partials/Banner.jsx');
 var Loading = require('../partials/Loading.jsx');
 var If = require('../partials/If.jsx');
+var Icon = require('../partials/Icon.jsx');
 var FluxMixin = require('../../utils/FluxMixin');
 var seriesActions = require('../../actions/seriesActions');
 var seriesHelpers = require('../../utils/seriesHelpers.jsx');
@@ -41,7 +42,10 @@ var Series = React.createClass({
 
     addToLibrary: function () {
         var seriesid = this.getParams().seriesid;
-        this.executeAction(seriesActions.addSeriesToLibrary, seriesid);
+        this.executeAction(seriesActions.addSeriesToLibrary, seriesid)
+            .then(function () {
+                this.executeAction(seriesActions.loadSeries, seriesid);
+            }.bind(this));
     },
 
     render: function () {
@@ -70,9 +74,16 @@ var Series = React.createClass({
                     </Col>
                     <Col sm={9}>
                         <div className="pull-right">
-                            <Button bsStyle="primary" onClick={this.addToLibrary}>
-                                <i className="fa fa-plus" /> Add to my library
-                            </Button>
+                            <If test={!series.inMyLibrary}>
+                                <Button bsStyle="primary" onClick={this.addToLibrary}>
+                                    <Icon type="plus" /> Add to my library
+                                </Button>
+                            </If>
+                            <If test={series.inMyLibrary}>
+                                <Button bsStyle="success" disabled>
+                                    <Icon type="check" /> In my library
+                                </Button>
+                            </If>
                         </div>
                         <h1>
                             {series.SeriesName}

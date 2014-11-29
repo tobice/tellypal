@@ -5,22 +5,48 @@ var db = require('../utils/db');
 
 var myLibrary = {
 
-    addSeries: function (series) {
-        var episodes = [];
-        _.each(series.seasons, function (season) {
-            _.each(season, function (episode) {
-                // Remember the series name with the episode to improve
-                // querying
-                episode.SeriesName = series.SeriesName;
-                episodes.push(episode);
-            })
+    addSeries: function (series, episodes) {
+        series.inMyLibrary = true;
+
+        _.each(episodes, function (episode) {
+            // Remember the series name with the episode to improve
+            // querying
+            episode.SeriesName = series.SeriesName;
+            episode.inMyLibrary = true;
         });
 
-        return db.Episode.insert(episodes)
+        return this.getSeries(series.id)
+            .then(function (series) {
+                if (series) {
+                    throw new Error('Series already exists in the library!');
+                }
+                return db.Episode.insert(episodes)
+            })
             .then(function() {
                 delete series.seasons;
                 return db.Series.insert(series);
             })
+    },
+
+    getSeries: function (seriesid) {
+        return new Promise(function (resolve) {
+            var query = db.Series.find({id: seriesid});
+            resolve(query.first());
+        });
+    },
+
+    getEpisodes: function (seriesid) {
+        return new Promise(function (resolve) {
+            var query = db.Episode.find({seriesid: seriesid});
+            resolve(query.toArray());
+        });
+    },
+
+    getSeason: function (seriesid, season) {
+        return new Promise(function (resolve) {
+            var query = db.Episode.find({Combined_season: season});
+            resolve(query.toArray());
+        })
     },
 
     addDownloadJob: function (hash, seriesid, SeriesName, jobDescription) {

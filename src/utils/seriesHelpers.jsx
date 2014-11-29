@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+var _ = require('lodash');
 var printf = require('printf');
 var moment = require('moment');
 var React = require('react');
@@ -46,6 +46,30 @@ var seriesHelpers = {
     makeQueryForEpisode: function (SeriesName, season, episode, quality) {
         quality = quality || '';
         return printf("%s S%02iE%02i %s", SeriesName, season, episode, quality).trim();
+    },
+
+    episodesToSeason: function (episodes) {
+        var seasons = {};
+
+        _.each(episodes, function (episode) {
+            var season = parseInt(episode.Combined_season);
+            var episodeNo = parseInt(episode.Combined_episodenumber);
+            if (!seasons[season]) {
+                seasons[season] = {};
+            }
+            seasons[season][episodeNo] = episode;
+        });
+        return seasons;
+    },
+
+    seasonsToEpisodes: function (seasons) {
+        var episodes = [];
+        _.each(seasons, function (season) {
+            _.each(season, function (episode) {
+                episodes.push(episode);
+            })
+        });
+        return episodes;
     }
 };
 

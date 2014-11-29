@@ -1,8 +1,10 @@
 var request = require('superagent');
-var xmlHelpers = require('../utils/xmlHelpers');
 var _ = require('lodash');
 var url = require('url');
 var moment = require('moment');
+
+var xmlHelpers = require('../utils/xmlHelpers');
+var seriesHelpers = require('../utils/seriesHelpers.jsx');
 
 var TVDB_API_KEY = '0A1C6FE6954B01FC';
 var TVDB_API_URL = 'http://thetvdb.com/api/';
@@ -42,20 +44,14 @@ var tvdb = {
             .then(function (json) {
                 var series = xmlHelpers.cleanObject(json.Data.Series[0]);
                 var episodes = xmlHelpers.cleanObjects(json.Data.Episode);
-                var seasons = {};
 
+                // Add time information to episode air date
                 _.each(episodes, function (episode) {
-                    var season = parseInt(episode.Combined_season);
-                    var episodeNo = parseInt(episode.Combined_episodenumber);
-                    if (!seasons[season]) {
-                        seasons[season] = {};
-                    }
                     episode.FirstAired = episode.FirstAired + ' '
                         + moment(series.Airs_Time, 'h:mm A').format('HH:mm');
-                    seasons[season][episodeNo] = episode;
                 });
 
-                series.seasons = seasons;
+                series.seasons = seriesHelpers.episodesToSeason(episodes);
                 series.hasSpecials = series.seasons.hasOwnProperty('0');
                 series.seasonCount = _.size(series.seasons) - (series.hasSpecials ? 1 : 0);
                 series.episodeCount = episodes.length;
