@@ -32,6 +32,8 @@ function save() {
     });
 }
 
+var delayedSave = _.debounce(save, 1000);
+
 // Create database schema
 var models = {
     DownloadJob: db.model('downloadJob', DownloadJobSchema),
@@ -43,9 +45,9 @@ var models = {
 // Make sure that the database gets saved to the disk every time the model is
 // changed
 _.each(models, function (model) {
-    model.addListener('insert', save);
-    model.addListener('update', save);
-    model.addListener('remove', save);
+    model.addListener('insert', delayedSave);
+    model.addListener('update', delayedSave);
+    model.addListener('remove', delayedSave);
 });
 
 module.exports = models;
