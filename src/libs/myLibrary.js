@@ -47,7 +47,7 @@ var myLibrary = {
 
     getSeason: function (seriesid, season) {
         return new Promise(function (resolve) {
-            var query = db.Episode.find({seriesid: seriesid, Combined_season: season});
+            var query = db.Episode.find({seriesid: seriesid.toString(), Combined_season: season.toString()});
             resolve(query.toArray());
         })
     },
