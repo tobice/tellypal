@@ -9,6 +9,7 @@ var DownloadJobSchema = require('../schemas/DownloadJob');
 var NotificationSchema = require('../schemas/Notification');
 var SeriesSchema = require('../schemas/Series');
 var EpisodeSchema = require('../schemas/Episode');
+var MetaSchema = require('../schemas/Meta');
 
 var db = new warehouse({ path: config.db });
 
@@ -46,7 +47,8 @@ var models = {
     DownloadJob: db.model('downloadJob', DownloadJobSchema),
     Notification: db.model('notification', NotificationSchema),
     Episode: db.model('episode', EpisodeSchema),
-    Series: db.model('series', SeriesSchema)
+    Series: db.model('series', SeriesSchema),
+    Meta: db.model('meta', MetaSchema)
 };
 
 // Make sure that the database gets saved to the disk every time the model is

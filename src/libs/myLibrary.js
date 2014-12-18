@@ -117,6 +117,46 @@ var myLibrary = {
     setDownloadJobFinished: function (hash) {
         var query = db.DownloadJob.find({hash: hash});
         return query.update({ finished: moment().format() });
+    },
+
+    getMeta: function () {
+        return db.ready.then(function () {
+            return db.Meta.first();
+        });
+    },
+
+    updateMeta: function (update) {
+        return this.getMeta()
+            .then(function (meta) {
+                if (meta) {
+                    return db.Meta.update({}, update);
+                } else {
+                    return db.Meta.insert(update);
+                }
+            })
+    },
+
+    /**
+     * @returns {Promise.<moment>}
+     */
+    getLastLibraryUpdate: function () {
+        return this.getMeta()
+            .then(function (meta) {
+                if (meta) {
+                    return moment(meta.lastLibraryUpdate);
+                } else {
+                    return moment(0);
+                }
+            });
+    },
+
+    setLastLibraryUpdate: function (date) {
+        if (!date) {
+            date = moment();
+        }
+        return this.updateMeta({
+            lastLibraryUpdate: date.format()
+        });
     }
 };
 

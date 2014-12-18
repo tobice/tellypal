@@ -20,8 +20,8 @@ var config = {
     deluge: {
         apiUrl: 'http://localhost:8112/json',
         password: 'deluge'
-    }
-
+    },
+    libraryUpdateEvery: { hours: 12 }
 };
 
 module.exports = config;

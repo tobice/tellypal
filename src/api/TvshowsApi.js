@@ -4,6 +4,7 @@ var _ = require('lodash');
 var tvdb = require('../libs/tvdb');
 var myLibrary = require('../libs/myLibrary');
 var seriesHelpers = require('../utils/seriesHelpers.jsx');
+var config = require('../../config');
 
 function TvshowsApi (req, config) {
     this.req = req;
@@ -67,6 +68,17 @@ TvshowsApi.prototype.updateLibrary = function () {
             return Promise.all(_.map(seriesArray, function (series) {
                 return self.updateSeries(series.id);
             }));
+        })
+        .then(function () {
+            myLibrary.setLastLibraryUpdate();
+        })
+};
+
+TvshowsApi.prototype.isLibraryOutDated = function () {
+    return myLibrary.getLastLibraryUpdate()
+        .then(function (date) {
+            var nextUpdate = date.add(config.libraryUpdateEvery);
+            return nextUpdate.isBefore(); // ...is before "now"
         })
 };
 

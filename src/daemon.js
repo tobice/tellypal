@@ -13,7 +13,12 @@ var oldUiState;
 var daemon = {
 
     updateLibrary: function () {
-        tvshowsApi.updateLibrary();
+        tvshowsApi.isLibraryOutDated()
+            .then(function (isLibraryOutDated) {
+                if (isLibraryOutDated) {
+                    tvshowsApi.updateLibrary();
+                }
+            });
     },
 
     updateUi: function () {
@@ -51,11 +56,14 @@ var daemon = {
     },
 
     run: function () {
+        this.updateUi();
+        this.updateLibrary();
+
         setInterval(this.updateUi, 1000);
+        setInterval(this.updateLibrary, 60 * 60 * 1000)
+
         notifications.onNewNotification(this.flushNotifications);
         socket.onConnection(this.flushNotifications);
-
-        this.updateLibrary();
     }
 };
 
