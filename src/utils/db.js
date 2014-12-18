@@ -2,6 +2,7 @@ var fs = require('fs');
 var warehouse = require('warehouse');
 var debug = require('debug')('tellypal:db');
 var _ = require('lodash');
+var Promise = require('bluebird');
 
 var config = require('../../config');
 var DownloadJobSchema = require('../schemas/DownloadJob');
@@ -10,12 +11,18 @@ var SeriesSchema = require('../schemas/Series');
 var EpisodeSchema = require('../schemas/Episode');
 
 var db = new warehouse({ path: config.db });
+
+// Use promise to store the db loading status so we can detect the moment
+// when the database is loaded and we can start using it
+var ready;
 if (fs.existsSync(config.db)) {
-    load();
+    ready = load();
+} else {
+    ready = Promise.resolve();
 }
 
 function load() {
-    db.load().then(function () {
+    return db.load().then(function () {
         debug('Database loaded');
     })
 }
@@ -51,3 +58,4 @@ _.each(models, function (model) {
 });
 
 module.exports = models;
+module.exports.ready = ready;

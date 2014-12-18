@@ -1,14 +1,20 @@
 var _ = require('lodash');
 var TorrentApi = require('./api/TorrentsApi');
+var TvshowsApi = require('./api/TvshowsApi');
 var socket = require('./utils/socketServer');
 var notifications = require('./libs/notifications');
 var myLibrary = require('./libs/myLibrary');
 var torrentApi = new TorrentApi();
+var tvshowsApi = new TvshowsApi();
 var consts = require('./consts');
 
 var oldUiState;
 
 var daemon = {
+
+    updateLibrary: function () {
+        tvshowsApi.updateLibrary();
+    },
 
     updateUi: function () {
         torrentApi.updateUi().then(function (uiState) {
@@ -48,6 +54,8 @@ var daemon = {
         setInterval(this.updateUi, 1000);
         notifications.onNewNotification(this.flushNotifications);
         socket.onConnection(this.flushNotifications);
+
+        this.updateLibrary();
     }
 };
 

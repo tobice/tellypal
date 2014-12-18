@@ -1,3 +1,4 @@
+var debug = require('debug')('tellypal:tvshowsApi');
 var Promise = require('bluebird');
 var _ = require('lodash');
 var tvdb = require('../libs/tvdb');
@@ -42,6 +43,30 @@ TvshowsApi.prototype.addSeriesToLibrary = function (seriesid) {
             var episodes = seriesHelpers.seasonsToEpisodes(series.seasons);
             delete series.seasons;
             return myLibrary.addSeries(series, episodes);
+        })
+};
+
+TvshowsApi.prototype.updateSeries = function (seriesid) {
+    var name;
+    return tvdb.getSeries(seriesid)
+        .then(function (series) {
+            var episodes = seriesHelpers.seasonsToEpisodes(series.seasons);
+            name = series.SeriesName;
+            delete series.seasons;
+            return myLibrary.updateSeries(series, episodes);
+        })
+        .then(function () {
+            debug('Series %s has been updated', name);
+        })
+};
+
+TvshowsApi.prototype.updateLibrary = function () {
+    var self = this;
+    return myLibrary.getSeries()
+        .then(function (seriesArray) {
+            return Promise.all(_.map(seriesArray, function (series) {
+                return self.updateSeries(series.id);
+            }));
         })
 };
 

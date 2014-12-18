@@ -28,28 +28,58 @@ var myLibrary = {
             })
     },
 
+    updateSeries: function (series, episodes) {
+        return this.getSeries(series.id)
+
+            // Update series record
+            .then(function (series) {
+                if (!series) {
+                    throw new Error('Series does not exist in the library!');
+                }
+                return db.Series.find({id: series.id}).update(series)
+            })
+
+            // Update episode records
+            .then(function () {
+                return Promise.all(_.map(episodes, function (episode) {
+                    var query = db.Episode.find({id: episode.id});
+
+                    // Insert new episodes
+                    if (query.length == 0) {
+                        episode.SeriesName = series.SeriesName;
+                        episode.inMyLibrary = true;
+                        db.Episode.insert(episode);
+
+                    // Update old ones
+                    } else {
+                        query.update(episode);
+                    }
+                }));
+            })
+    },
+
     getSeries: function (seriesid) {
-        return new Promise(function (resolve) {
+        return db.ready.then(function () {
             if (seriesid) {
-                resolve(db.Series.find({id: seriesid}).first());
+                return db.Series.find({id: seriesid}).first();
             } else {
-                resolve(db.Series.find({}).toArray());
+                return db.Series.find({}).toArray();
             }
         });
     },
 
     getEpisodes: function (seriesid) {
-        return new Promise(function (resolve) {
+        return db.ready.then(function () {
             var query = db.Episode.find({seriesid: seriesid});
-            resolve(query.toArray());
+            return query.toArray();
         });
     },
 
     getSeason: function (seriesid, season) {
-        return new Promise(function (resolve) {
+        return db.ready.then(function () {
             var query = db.Episode.find({seriesid: seriesid.toString(), Combined_season: season.toString()});
-            resolve(query.toArray());
-        })
+            return query.toArray();
+        });
     },
 
     addDownloadJob: function (hash, seriesid, SeriesName, jobDescription) {
@@ -65,14 +95,14 @@ var myLibrary = {
     },
 
     getDownloadJob: function (hash) {
-        return new Promise(function (resolve) {
+        return db.ready.then(function () {
             var query = db.DownloadJob.find({hash: hash});
-            resolve(query.first());
+            return query.first();
         });
     },
 
     getFinishedDownloadJobs: function (limit) {
-        return new Promise(function (resolve) {
+        return db.ready.then(function () {
             var query = db.DownloadJob.find({});
             query = query
                 .filter(function (job) {
@@ -80,7 +110,7 @@ var myLibrary = {
                 })
                 .sort('finished', -1)
                 .limit(limit);
-            resolve(query.toArray());
+            return query.toArray();
         });
     },
 
