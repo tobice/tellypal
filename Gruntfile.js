@@ -20,10 +20,10 @@ module.exports = function (grunt) {
                     debug: false,
                     transform: [
                         ['reactify', {es6: true}],
-                        ['uglifyify', { global: true }]]
+                        ['uglifyify', {global: false}]]
                 },
                 files: {
-                    'public/scripts.js': 'src/client.js'
+                    'public/scripts.js': 'src/client.jsx'
                 }
             }
         },
