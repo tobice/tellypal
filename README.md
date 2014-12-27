@@ -12,6 +12,8 @@ _TellyPal is currently in the pre-alpha stage. Some features are implemented
 and the software is ready to use, but it might require some extra care to get
 it working_.
 
+[![Screenshot](./screenshot.png)](./screenshot.png)
+
 ## Currently implemented features
 
 * Searching/browsing in **The TVDB** database
