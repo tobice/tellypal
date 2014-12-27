@@ -56,14 +56,24 @@ and enabled
 1. Download & unpack the repository
 2. Go to the repository directory & run `npm install`
 3. Check the `config.js` file and update it according to your needs
-4. Run `grunt build` (if you have `grunt` installed globally; otherwise use
+4. Make sure that the database directory and the image cache directory
+defined in the config file exist and are both writable (by default you have to
+create directories `./var` and `./var/imageCache`)
+5. Run `grunt build` (if you have `grunt` installed globally; otherwise use
 the binary inside `node_modules/grunt-cli/bin`).
-5. Check that `deluged` and `deluge-web` are running and that the **Deluge:
+6. Check that `deluged` and `deluge-web` are running and that the **Deluge:
 Web UI** is connected to the `deluged` daemon (unfortunately, you have to do
 this step for TellyPal)
-6. Run `node index.js` to start the daemon
-7. Access TellyPal from you web browser
+7. Run `node index.js` to start the daemon
+8. Access TellyPal from you web browser
 (by default [http://localhost:3000] (http://localhost:3000))
+
+If you want to know what's going on in the background, just run TellyPal with
+the `DEBUG` environment variable defined.
+
+* use `DEBUG="*" node index.js` to get all debug information
+* use `DEBUG="tellypal:" node index.js` to get the most important debug
+information
 
 If you want to play with the code, just run `grunt devel` to start a
 dev server that will react to any changes you make to the code.
