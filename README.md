@@ -4,7 +4,7 @@ TellyPal lets you comfortably manage your collection of your favourite tv
 shows and easily download the latest episodes. It works as a thin layer over
 [The TVDB](http://www.thetvdb.com), [Torrentz](http://torrentz.com)
 and [Deluge BitTorrent Client](http://deluge-torrent.org/).
-It works as a multi-platform daemon that can be installed pretty much
+It is a multi-platform daemon that can be installed pretty much
 anywhere and is accessed and controlled from a web browser.
 
 _TellyPal is currently in the pre-alpha stage. Some features are implemented
@@ -17,7 +17,7 @@ it working_.
 
 * Searching/browsing **The TVDB**
 * Adding tv shows to the local library
-* Automatic updating/syncing shows in the library with new information
+* Automatic updates of the local library
 * Single-click episode download
 * Basic control over underlying Deluge torrent client (start/pause, remove torrent)
 * Responsive UI (support for phones & tablets)
@@ -25,8 +25,8 @@ it working_.
 ## To be implemented (some day...)
 
 * Automatic download of new released episodes
-* Batch downloads of complete seasons or even series
-* Better library management (removing shows from library...)
+* Batch downloads of complete seasons or even shows
+* Better library management (removing shows from the library...)
 * Integration with XBMC
 * Support for other torrent clients or torrent search engines
 
